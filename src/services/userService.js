@@ -8,7 +8,7 @@ const findByEmail = async ({ email, password }) => {
     },
   });
 
-  if (result.dataValues.password !== password) return null;
+  if (!result || result.dataValues.password !== password) return null;
 
   const token = tokenHelper.createToken({ id: result.dataValues.id });
 
