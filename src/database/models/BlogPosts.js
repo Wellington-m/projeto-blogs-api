@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Users = sequelize.define('BlogPosts', {
+  const BlogPosts = sequelize.define('BlogPosts', {
     title: {
       type:  DataTypes.VARCHAR,
       allowNull: false,
