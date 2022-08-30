@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const PostCategories = sequelize.define('PostCategories', {
     postId: {
-      type:  DataTypes.INT,
+      type:  DataTypes.INTEGER,
       allowNull: false,
     },
     categoryId: {
-      type:  DataTypes.INT,
+      type:  DataTypes.INTEGER,
       allowNull: false,
     }
   }, { tableName: 'PostCategories', timestamps: false });

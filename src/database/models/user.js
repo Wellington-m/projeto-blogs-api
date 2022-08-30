@@ -6,19 +6,19 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     displayName: {
-      type:  DataTypes.VARCHAR,
+      type:  DataTypes.STRING,
       allowNull: false,
     },
     email: {
-      type:  DataTypes.VARCHAR,
+      type:  DataTypes.STRING,
       allowNull: false,
     },
     password: {
-      type:  DataTypes.VARCHAR,
+      type:  DataTypes.STRING,
       allowNull: false,
     },
     image: {
-      type:  DataTypes.VARCHAR,
+      type:  DataTypes.STRING,
       allowNull: false,
     },
   }, { tableName: 'Users', timestamps: false });

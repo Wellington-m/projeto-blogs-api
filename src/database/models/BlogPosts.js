@@ -1,19 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
   const BlogPosts = sequelize.define('BlogPosts', {
     title: {
-      type:  DataTypes.VARCHAR,
+      type:  DataTypes.STRING,
       allowNull: false,
     },
     content: {
-      type:  DataTypes.VARCHAR,
+      type:  DataTypes.STRING,
       allowNull: false,
     },
     published: {
-      type:  DataTypes.DATETIME,
+      type:  DataTypes.DATE,
       allowNull: false,
     },
     updated: {
-      type:  DataTypes.DATETIME,
+      type:  DataTypes.DATE,
       allowNull: false,
     },
   }, { tableName: 'BlogPosts', timestamps: false });
