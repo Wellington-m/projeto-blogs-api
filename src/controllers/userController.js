@@ -15,4 +15,10 @@ const findByEmail = async (req, res) => {
   }
 };
 
-module.exports = { findByEmail };
+const create = async (req, res) => {
+  const { displayName, email, password, image } = req.body;
+  const result = await userService.create({ displayName, email, password, image });
+  return res.status(201).json({ token: result });
+};
+
+module.exports = { findByEmail, create };

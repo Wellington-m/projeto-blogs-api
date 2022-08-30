@@ -15,4 +15,9 @@ const findByEmail = async ({ email, password }) => {
   return token;
 };
 
-module.exports = { findByEmail };
+const create = async ({ displayName, email, password, image }) => {
+  const result = await userModel.create({ displayName, email, password, image });
+  return result;
+};
+
+module.exports = { findByEmail, create };
