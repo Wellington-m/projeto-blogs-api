@@ -1,4 +1,5 @@
 const { User: userModel } = require('../database/models');
+const tokenHelper = require('../helpers/token');
 
 const findByEmail = async ({ email, password }) => {
   const [result] = await userModel.findAll({
@@ -9,7 +10,9 @@ const findByEmail = async ({ email, password }) => {
 
   if (result.dataValues.password !== password) return null;
 
-  return result;
+  const token = tokenHelper.createToken({ id: result.dataValues.id });
+
+  return token;
 };
 
 module.exports = { findByEmail };
