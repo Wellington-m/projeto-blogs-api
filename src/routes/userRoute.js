@@ -3,6 +3,6 @@ const userController = require('../controllers/userController');
 
 const userRoute = express.Router();
 
-userRoute.get('/', userController.findAll);
+userRoute.post('/', userController.findByEmail);
 
 module.exports = userRoute;
