@@ -16,8 +16,12 @@ const findByEmail = async ({ email, password }) => {
 };
 
 const create = async ({ displayName, email, password, image }) => {
+  const user = await userModel.findAll({ where: { email } });
+  if (user.length > 0) return null;
+
   const result = await userModel.create({ displayName, email, password, image });
-  return result;
+  const token = tokenHelper.createToken({ id: result.id });
+  return token;
 };
 
 module.exports = { findByEmail, create };

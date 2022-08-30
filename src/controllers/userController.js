@@ -18,6 +18,9 @@ const findByEmail = async (req, res) => {
 const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
   const result = await userService.create({ displayName, email, password, image });
+
+  if (!result) return res.status(409).json({ message: 'User already registered' });
+
   return res.status(201).json({ token: result });
 };
 
