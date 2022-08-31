@@ -12,7 +12,9 @@ const findByEmail = async ({ email, password }) => {
 };
 
 const findAll = async () => {
-  const result = await userModel.findAll();
+  const result = await userModel.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
   return result;
 };
 
