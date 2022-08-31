@@ -11,6 +11,11 @@ const findByEmail = async ({ email, password }) => {
   return token;
 };
 
+const findByPk = async (id) => {
+  const result = await userModel.findByPk(id);
+  return result;
+};
+
 const findAll = async () => {
   const result = await userModel.findAll({
     attributes: ['id', 'displayName', 'email', 'image'],
@@ -27,4 +32,4 @@ const create = async ({ displayName, email, password, image }) => {
   return token;
 };
 
-module.exports = { findByEmail, create, findAll };
+module.exports = { findByEmail, create, findAll, findByPk };
