@@ -2,7 +2,7 @@ const userService = require('../services/userService');
 
 const ERROR_MESSAGE = 'Server error';
 
-const findByEmail = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await userService.findByEmail({ email, password });
@@ -38,4 +38,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { findByEmail, create, findAll };
+module.exports = { login, create, findAll };
