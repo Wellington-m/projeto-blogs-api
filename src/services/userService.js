@@ -11,9 +11,11 @@ const findByEmail = async ({ email, password }) => {
   return token;
 };
 
-const findByPk = async (id) => {
-  const result = await userModel.findByPk(id);
-  return result;
+const findByPk = async (receiveId) => {
+  const rows = await userModel.findByPk(receiveId);
+  if (!rows) return null;
+  const { id, displayName, email, image } = rows;
+  return { id, displayName, email, image };
 };
 
 const findAll = async () => {
