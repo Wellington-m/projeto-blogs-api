@@ -15,6 +15,15 @@ const findByEmail = async (req, res) => {
   }
 };
 
+const findAll = async (_req, res) => {
+  try {
+    const result = await userService.findAll();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({ message: ERROR_MESSAGE });
+  }
+};
+
 const create = async (req, res) => {
   try {
     const { displayName, email, password, image } = req.body;
@@ -28,4 +37,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { findByEmail, create };
+module.exports = { findByEmail, create, findAll };
