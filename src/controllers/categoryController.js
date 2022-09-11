@@ -2,6 +2,11 @@ const categoryService = require('../services/categoryService');
 
 const ERROR_MESSAGE = 'Server error';
 
+const findAll = async () => {
+  const result = await categoryService.findAll();
+  console.log(result);
+};
+
 const create = async (req, res) => {
   try {
     const { name } = req.body;
@@ -13,4 +18,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { create };
+module.exports = { findAll, create };
