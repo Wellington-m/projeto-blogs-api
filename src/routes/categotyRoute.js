@@ -5,6 +5,7 @@ const createCategoryValidation = require('../middlewares/createCategoryValidatio
 
 const categoryRoute = express.Router();
 
+categoryRoute.get('/', tokenValidation, categoryController.findAll);
 categoryRoute.post('/', tokenValidation, createCategoryValidation, categoryController.create);
 
 module.exports = categoryRoute;
