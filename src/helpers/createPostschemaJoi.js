@@ -11,9 +11,14 @@ const createPostschemaJoi = Joi.object({
     'any.required': MESSAGE_ERROR,
     'string.empty': MESSAGE_ERROR,
   }),
-  categoryIds: Joi.array().required().items(Joi.number()).messages({
+  categoryIds: Joi.array().required().items(
+    Joi.number().strict().required().messages({
+      'number.base': 'CategoryId deve ser um número',
+    }),
+    )
+    .messages({
     'any.required': MESSAGE_ERROR,
-    'string.empty': MESSAGE_ERROR,
+    'array.includesRequiredUnknowns': MESSAGE_ERROR,
   }),
 });
 
