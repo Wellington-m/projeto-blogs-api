@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     title: {
-      type:  DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     content: {
-      type:  DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     userId: {
@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     published: {
-      type:  DataTypes.DATE,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     updated: {
-      type:  DataTypes.DATE,
+      type: DataTypes.DATE,
       allowNull: true,
     },
   }, { tableName: 'BlogPosts', timestamps: false });
