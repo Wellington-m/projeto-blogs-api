@@ -46,10 +46,10 @@ const createBlogPost = async ({ title, content, categoryIds, userId }) => {
   return result;
 };
 
-const update = async ({ title, content, id }) => {
+const update = async ({ title, content, blogPostId, userId }) => {
   const result = await blogPostModel.update(
     { title, content },
-    { where: { id } },
+    { where: { id: blogPostId } },
   );
   return result;
 };
