@@ -30,5 +30,11 @@ const update = async (req, res) => {
   return res.status(200).json(result);
 };
 
+const destroy = async (req, _res) => {
+  const { id } = req.params;
+  const result = await postService.destroy(id);
+  console.log(result);
+};
+
 module.exports = { 
-  findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost, update };
+  findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost, update, destroy };
