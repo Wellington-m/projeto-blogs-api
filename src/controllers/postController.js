@@ -1,5 +1,10 @@
 const postService = require('../services/postService');
 
+const findBlogPostsAndCategories = async (_req, res) => {
+  const result = await postService.findBlogPostsAndCategories();
+  console.log(result);
+};
+
 const createBlogPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const { id: userId } = req;
@@ -8,4 +13,4 @@ const createBlogPost = async (req, res) => {
   return res.status(201).json(result);
 };
 
-module.exports = { createBlogPost };
+module.exports = { createBlogPost, findBlogPostsAndCategories };

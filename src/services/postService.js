@@ -14,7 +14,7 @@ const findBlogPostsAndCategories = async (id) => {
   const result = await blogPostModel.findByPk(id,
     { include: { model: categoryModel, as: 'categories' } });
   if (!result) return false;
-  console.log(result);
+  return result;
 };
 
 const createBlogPost = async ({ title, content, categoryIds, userId }) => {
