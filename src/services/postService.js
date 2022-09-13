@@ -59,5 +59,17 @@ const update = async ({ title, content, blogPostId, userId }) => {
   return updatedValues;
 };
 
+const destroy = async (id) => {
+  blogPostModel.destroy({
+    where: { id },
+  });
+  return true;
+};
+
 module.exports = {
-  findByPk, findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost, update };
+  findByPk,
+  findBlogPostsAndCategories,
+  findBlogPostAndCategoryById,
+  createBlogPost,
+  update,
+  destroy };
