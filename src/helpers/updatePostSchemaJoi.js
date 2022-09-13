@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const updatePostSchame = Joi.object({
+const updatePostSchema = Joi.object({
   title: Joi.string().required().messages({
     'any.required': 'Some required fields are missing',
     'string.empty': 'Some required fields are missing',
@@ -11,4 +11,4 @@ const updatePostSchame = Joi.object({
   }),
 });
 
-module.exports = updatePostSchame;
+module.exports = updatePostSchema;
