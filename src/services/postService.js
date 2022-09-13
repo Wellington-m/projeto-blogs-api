@@ -46,14 +46,17 @@ const createBlogPost = async ({ title, content, categoryIds, userId }) => {
   return result;
 };
 
-const update = async ({ title, content, blogPostId, _userId }) => {
-  const result = await blogPostModel.update(
+const update = async ({ title, content, blogPostId, userId }) => {
+  const userIdFromBlogPost = await blogPostModel.findByPk(blogPostId);
+
+  if (userIdFromBlogPost.dataValues.userId !== userId) return false;
+
+  await blogPostModel.update(
     { title, content },
     { where: { id: blogPostId } },
   );
-  if (result[0] === 0) return false;
-
-  return result;
+  const updatedValues = await findBlogPostAndCategoryById(blogPostId);
+  return updatedValues;
 };
 
 module.exports = {

@@ -26,6 +26,7 @@ const update = async (req, res) => {
   const { title, content } = req.body;
 
   const result = await postService.update({ blogPostId, userId, title, content });
+  if (!result) return res.status(401).json({ message: 'Unauthorized user' });
   return res.status(200).json(result);
 };
 
