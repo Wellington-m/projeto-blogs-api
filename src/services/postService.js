@@ -10,6 +10,13 @@ const findByPk = async (id) => {
   return result;
 };
 
+const findBlogPostsAndCategories = async (id) => {
+  const result = await blogPostModel.findByPk(id,
+    { include: { model: categoryModel, as: 'categories' } });
+  if (!result) return false;
+  console.log(result);
+};
+
 const createBlogPost = async ({ title, content, categoryIds, userId }) => {
   const categoryIdsPromises = categoryIds.map((id) => categoryModel.findByPk(id));
   const categories = await Promise.all(categoryIdsPromises);
@@ -24,4 +31,4 @@ const createBlogPost = async ({ title, content, categoryIds, userId }) => {
   return result;
 };
 
-module.exports = { findByPk, createBlogPost };
+module.exports = { findByPk, findBlogPostsAndCategories, createBlogPost };
