@@ -19,7 +19,16 @@ const findBlogPostsAndCategories = async () => {
     ],
     },
       );
-  // if (!result) return false;
+  return result;
+};
+
+const findBlogPostAndCategoryById = async (id) => {
+  const result = await blogPostModel.findByPk(id,
+    { include: [
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
+      { model: categoryModel, as: 'categories', through: { attributes: [] } },
+    ],
+    });
   return result;
 };
 
@@ -37,4 +46,5 @@ const createBlogPost = async ({ title, content, categoryIds, userId }) => {
   return result;
 };
 
-module.exports = { findByPk, findBlogPostsAndCategories, createBlogPost };
+module.exports = {
+  findByPk, findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost };

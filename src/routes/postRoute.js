@@ -5,6 +5,7 @@ const createPostValidation = require('../middlewares/createPostValidation');
 
 const postRoute = express.Router();
 
+postRoute.get('/:id');
 postRoute.get('/', tokenValidation, postController.findBlogPostsAndCategories);
 postRoute.post('/', tokenValidation, createPostValidation, postController.createBlogPost);
 
