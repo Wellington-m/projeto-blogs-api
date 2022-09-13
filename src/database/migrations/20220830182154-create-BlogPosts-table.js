@@ -7,8 +7,8 @@ module.exports = {
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         title VARCHAR(255) NOT NULL,
         content VARCHAR(255) NOT NULL,
-        published DATETIME NOT NULL,
-        updated DATETIME NOT NULL
+        published DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
       );`
     );
   },

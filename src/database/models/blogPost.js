@@ -1,3 +1,12 @@
+/**
+ * 
+ * @param {import('sequelize').Sequelize} sequelize 
+ * @param {*} DataTypes 
+ * @returns 
+ */
+
+const { DATE } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   const BlogPosts = sequelize.define('BlogPost', {
     id: {
@@ -19,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     published: {
       type: DataTypes.DATE,
+      // defaultValue: Date.now(),
       allowNull: true,
     },
     updated: {
