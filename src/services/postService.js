@@ -2,6 +2,7 @@ const {
   BlogPost: blogPostModel,
   PostCategory: PostCategoryModel,
   Category: categoryModel,
+  User: userModel,
 } = require('../database/models');
 
 const findByPk = async (id) => {
@@ -10,10 +11,15 @@ const findByPk = async (id) => {
   return result;
 };
 
-const findBlogPostsAndCategories = async (id) => {
-  const result = await blogPostModel.findByPk(id,
-    { include: { model: categoryModel, as: 'categories' } });
-  if (!result) return false;
+const findBlogPostsAndCategories = async () => {
+  const result = await blogPostModel.findAll(
+    { include: [
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
+      { model: categoryModel, as: 'category', through: { attributes: [] } },
+    ],
+    },
+      );
+  // if (!result) return false;
   return result;
 };
 

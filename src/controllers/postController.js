@@ -1,8 +1,8 @@
 const postService = require('../services/postService');
 
-const findBlogPostsAndCategories = async (_req, res) => {
-  const result = await postService.findBlogPostsAndCategories();
-  console.log(result);
+const findBlogPostsAndCategories = async (req, res) => {
+  const result = await postService.findBlogPostsAndCategories(req.id);
+  return res.status(200).json(result);
 };
 
 const createBlogPost = async (req, res) => {
