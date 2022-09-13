@@ -7,6 +7,8 @@ const tokenValidation = (req, res, next) => {
   const result = tokenHelper.verifyToken(authorization);
   if (!result) return res.status(401).json({ message: 'Expired or invalid token' });
 
+  req.id = result.id;
+
   next();
 };
 

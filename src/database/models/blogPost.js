@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     published: {
       type:  DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     updated: {
       type:  DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
   }, { tableName: 'BlogPosts', timestamps: false });
 
