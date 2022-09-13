@@ -15,7 +15,7 @@ const findBlogPostsAndCategories = async () => {
   const result = await blogPostModel.findAll(
     { include: [
       { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
-      { model: categoryModel, as: 'category', through: { attributes: [] } },
+      { model: categoryModel, as: 'categories', through: { attributes: [] } },
     ],
     },
       );
