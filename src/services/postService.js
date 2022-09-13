@@ -46,11 +46,13 @@ const createBlogPost = async ({ title, content, categoryIds, userId }) => {
   return result;
 };
 
-const update = async ({ title, content, blogPostId, userId }) => {
+const update = async ({ title, content, blogPostId, _userId }) => {
   const result = await blogPostModel.update(
     { title, content },
     { where: { id: blogPostId } },
   );
+  if (result[0] === 0) return false;
+
   return result;
 };
 

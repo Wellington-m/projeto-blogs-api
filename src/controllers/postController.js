@@ -22,10 +22,12 @@ const createBlogPost = async (req, res) => {
 
 const update = async (req, res) => {
   const { id: blogPostId } = req.params;
-  const { id: userId, title, content } = req.body;
+  const { id: userId } = req;
+  const { title, content } = req.body;
 
   const result = await postService.update({ blogPostId, userId, title, content });
-  console.log(result);
+  return res.status(200).json(result);
 };
 
-module.exports = { findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost, update };
+module.exports = { 
+  findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost, update };
