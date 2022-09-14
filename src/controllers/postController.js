@@ -12,10 +12,10 @@ const findBlogPostAndCategoryById = async (req, res) => {
   return res.status(200).json(result);
 };
 
-const search = async (req, _res) => {
+const search = async (req, res) => {
   const { q } = req.query;
   const result = await postService.search(q);
-  console.log(result);
+  return res.status(200).json(result);
 };
 
 const createBlogPost = async (req, res) => {
