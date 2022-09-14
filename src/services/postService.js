@@ -36,10 +36,6 @@ const findBlogPostAndCategoryById = async (id) => {
 const search = async (q) => {
   const query = `%${q}%`;
   const result = await blogPostModel.findAll({
-    include: [
-      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
-      { model: categoryModel, as: 'categories', through: { attributes: [] } },
-    ], 
     where: { [Op.or]: [
       {
         title: { [Op.like]: query },
@@ -48,7 +44,12 @@ const search = async (q) => {
         content: { [Op.like]: query },
       },
     ],
-  } });
+    },
+    include: [
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
+      { model: categoryModel, as: 'categories', through: { attributes: [] } },
+    ], 
+});
 
   return result;
 };
