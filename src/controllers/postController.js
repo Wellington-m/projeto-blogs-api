@@ -30,10 +30,13 @@ const update = async (req, res) => {
   return res.status(200).json(result);
 };
 
-const destroy = async (req, _res) => {
-  const { id } = req.params;
-  const result = await postService.destroy(id);
-  console.log(result);
+const destroy = async (req, res) => {
+  const { id: blogPostId } = req.params;
+  const { id: userId } = req;
+  const result = await postService.destroy({ blogPostId, userId });
+  if (result === 'Unauthorized user') return res.status(401).json({ message: result });
+  if (result === 'Post does not exist') return res.status(404).json({ message: result });
+  if (result) return res.status(204).json();
 };
 
 module.exports = { 

@@ -59,9 +59,13 @@ const update = async ({ title, content, blogPostId, userId }) => {
   return updatedValues;
 };
 
-const destroy = async (id) => {
+const destroy = async ({ blogPostId, userId }) => {
+  const userIdFromBlogPost = await blogPostModel.findByPk(blogPostId);
+  if (userIdFromBlogPost === null) return 'Post does not exist';
+  if (userIdFromBlogPost.dataValues.userId !== userId) return 'Unauthorized user';
+
   blogPostModel.destroy({
-    where: { id },
+    where: { id: blogPostId },
   });
   return true;
 };
