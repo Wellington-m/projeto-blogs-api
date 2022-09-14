@@ -48,4 +48,10 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { login, create, findAll, findByPk };
+const destroy = async (req, res) => {
+  const { id } = req;
+  const result = await userService.destroy(id);
+  if (result) return res.status(204).json();
+};
+
+module.exports = { login, create, findAll, findByPk, destroy };
