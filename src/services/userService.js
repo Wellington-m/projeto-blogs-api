@@ -34,4 +34,11 @@ const create = async ({ displayName, email, password, image }) => {
   return token;
 };
 
-module.exports = { findByEmail, create, findAll, findByPk };
+const destroy = async (id) => {
+  await userModel.destroy({
+    where: { id },
+  });
+  return true;
+};
+
+module.exports = { findByEmail, create, findAll, findByPk, destroy };
