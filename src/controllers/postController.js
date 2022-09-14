@@ -12,6 +12,12 @@ const findBlogPostAndCategoryById = async (req, res) => {
   return res.status(200).json(result);
 };
 
+const search = async (req, _res) => {
+  const { q } = req.query;
+  const result = await postService.search(q);
+  console.log(result);
+};
+
 const createBlogPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const { id: userId } = req;
@@ -39,5 +45,10 @@ const destroy = async (req, res) => {
   if (result) return res.status(204).json();
 };
 
-module.exports = { 
-  findBlogPostsAndCategories, findBlogPostAndCategoryById, createBlogPost, update, destroy };
+module.exports = {
+  findBlogPostsAndCategories,
+  findBlogPostAndCategoryById,
+  search, 
+  createBlogPost,
+  update,
+  destroy };

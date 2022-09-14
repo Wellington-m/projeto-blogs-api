@@ -6,6 +6,7 @@ const updatePostValidation = require('../middlewares/updatePostValidation');
 
 const postRoute = express.Router();
 
+postRoute.get('/search', tokenValidation, postController.search);
 postRoute.get('/:id', tokenValidation, postController.findBlogPostAndCategoryById);
 postRoute.get('/', tokenValidation, postController.findBlogPostsAndCategories);
 postRoute.put('/:id', tokenValidation, updatePostValidation, postController.update);
