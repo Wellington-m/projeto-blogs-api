@@ -17,6 +17,8 @@ Este projeto trata-se de uma api REST na qual disponibiliza conteúdos para um b
 
 Após se certificar de que a aplicação esta rodando, deve aparecer a mensagem "ouvindo na porta 3000", como na imagem abaixo:
 
+![Screenshot from 2023-03-09 14-19-50](https://user-images.githubusercontent.com/98190059/224122302-0a670abb-e3f3-4078-8944-170949d77b03.png)
+
 Abra alguma ferramenta para requisições HTTP como postman, insominia, thunderCliente etc...
 Utilize a rota http://localhost:3000/login para fazer login passando as informações pelo body:
 ```JSON
@@ -37,7 +39,7 @@ Para criar um post é esperado um objeto no body do tipo:
 }
 ```
 
-Para editar um post é esperado um objeto do tipo:
+Para editar um post é esperado um objeto no body do tipo:
 ```JSON
 {
   "title": "Titulo do post",
@@ -70,4 +72,3 @@ As rotas disponíveis são:
 ## Nesse projeto, foi utilizado:
 
   * Express
-
