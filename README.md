@@ -71,4 +71,6 @@ As rotas disponíveis são:
 
 ## Nesse projeto, foi utilizado:
 
-  * Express
+  * Node.js com Express
+  * JWT
+  * Sequelize
