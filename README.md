@@ -1,13 +1,27 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# Boas-vindas ao projeto Blogs Api!
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+## Descrição
+Este projeto trata-se de uma api REST na qual disoinibiliza conteúdos para um blog.
+
+
+## Rodando a aplicação localmente via docker
+* Clone o projeto ```git clone git@github.com:Wellington-m/blogs-api.git```
+* Entre na pasta ```cd blogs-api```
+* Instale as dependências ```npm i```
+* Crie os containers ```docker-compose up -d```
+* Execute o container blogs_api ```docker exec -it blogs_api bash```
+* Rode o comando para criar o banco de dados ```npm run prestart```
+* Rode o comando para popular o banco de dados ```npm run seed```
+* Rode o comando para iniciar a api ```npm start```
+
+
+## Nesse projeto, foi utilizado:
+
+  * A _Context API_ do **React** para gerenciar estado.
+  * O _React Hook useState_;
+  * O _React Hook useContext_;
+  * O _React Hook useEffect_;
+  * _React Hooks_ customizados.
+  * O _styled-components_ para estilização.
+
