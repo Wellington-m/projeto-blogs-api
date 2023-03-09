@@ -18,7 +18,7 @@ Este projeto trata-se de uma api REST na qual disponibiliza conteúdos para um b
 Após se certificar de que a aplicação esta rodando, deve aparecer a mensagem "ouvindo na porta 3000", como na imagem abaixo:
 
 Abra alguma ferramenta para requisições HTTP como postman, insominia, thunderCliente etc...
-Utilize a rota http://localhost:3000/login para fazer login passando as informações pelo body: \n
+Utilize a rota http://localhost:3000/login para fazer login passando as informações pelo body:
 
 {
  	"email": "lewishamilton@gmail.com",
