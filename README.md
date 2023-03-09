@@ -19,24 +19,55 @@ Após se certificar de que a aplicação esta rodando, deve aparecer a mensagem 
 
 Abra alguma ferramenta para requisições HTTP como postman, insominia, thunderCliente etc...
 Utilize a rota http://localhost:3000/login para fazer login passando as informações pelo body:
-
+```JSON
 {
- 	"email": "lewishamilton@gmail.com",
- 	"password": "123456"
+ "email": "lewishamilton@gmail.com",
+ "password": "123456"
 }
+```
 
-Será retornado um token para ser utilizado nas demais requisições.
+Será retornado um token para ser utilizado no *Header* das demais requisições.
+
+Para criar um post é esperado um objeto no body do tipo:
+```JSON
+{
+ "title": "Titulo do post",
+ "content": "conteúdo do post",
+ "categoryIds": [4] //É esperado um ou mais id a categoria que o post pertence
+}
+```
+
+Para editar um post é esperado um objeto do tipo:
+```JSON
+{
+  "title": "Titulo do post",
+  "content": "conteúdo do post"
+}
+```
+
 As rotas disponíveis são:
 ### Post
 * Login: ```http://localhost:3000/login```
+* Criar um post: ```http://localhost:3000/post```
+* Criar uma categoria: ```http://localhost:3000/categories```
+
+### Get
+* Listar todos os posts: ```http://localhost:3000/post```
+* Procurar um post pelo ID: ```http://localhost:3000/post/id```
+* Procurar um post por parâmetro: ```http://localhost:3000/post/search?q=ano```
+* Listar todos os usuários: ```http://localhost:3000/user```
+* Buscar usuário pelo ID: ```http://localhost:3000/user/id```
+* Listar todas as categotias: ```http://localhost:3000/categories```
+
+### Put
+* Editar um post pelo ID: ```http://localhost:3000/post/id```
+
+### Delete
+* Deletar um post pelo id: ```http://localhost:3000/post/id```
+* Deletar o usuário que esta logado com base no token: ```http://localhost:3000/user/me```
 
 
 ## Nesse projeto, foi utilizado:
 
-  * A _Context API_ do **React** para gerenciar estado.
-  * O _React Hook useState_;
-  * O _React Hook useContext_;
-  * O _React Hook useEffect_;
-  * _React Hooks_ customizados.
-  * O _styled-components_ para estilização.
+  * Express
 
