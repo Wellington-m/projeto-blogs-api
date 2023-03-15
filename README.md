@@ -2,7 +2,7 @@
 
 
 ## Descrição
-API REST que disponibiliza conteúdos para um blog.
+API REST CRUD que disponibiliza conteúdos para um blog.
 
 
 ## Rodando a aplicação via docker
