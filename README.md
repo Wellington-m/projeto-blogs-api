@@ -28,7 +28,7 @@ Utilize a rota http://localhost:3000/login para fazer login passando as informa�
 }
 ```
 
-Será retornado um token para ser utilizado no *Header* das demais requisições.
+- **:warning: Atenção:** Será retornado um token para ser utilizado no *Header* das demais requisições.
 
 Para criar um post é esperado um objeto no body do tipo:
 ```JSON
