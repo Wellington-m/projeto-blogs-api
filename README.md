@@ -2,10 +2,10 @@
 
 
 ## Descrição
-Este projeto trata-se de uma api REST na qual disponibiliza conteúdos para um blog.
+API REST que disponibiliza conteúdos para um blog.
 
 
-## Rodando a aplicação localmente via docker
+## Rodando a aplicação via docker
 * Clone o projeto ```git clone git@github.com:Wellington-m/blogs-api.git```
 * Entre na pasta ```cd blogs-api```
 * Instale as dependências ```npm i```
