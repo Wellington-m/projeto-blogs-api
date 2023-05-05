@@ -63,7 +63,6 @@ describe("Cria migrations para as entidades User, Categories, BlogPosts e PostCa
         expect(insertQueryPostCategories).toEqual([0, 1]);
 
         const [result] = await database.query(queries.select.postCategories, { type: 'SELECT' });
-        console.log(result);
         expect(result).toEqual(queries.expect.postCategories);
     });
 })
