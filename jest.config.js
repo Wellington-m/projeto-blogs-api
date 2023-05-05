@@ -1,5 +1,6 @@
 module.exports = {
-  rootDir: './tests',
-  testRegex: './*\\.test\\.js$',
-  testTimeout: 180000,
-};
+    collectCoverage: true,
+    collectCoverageFrom: ['**/*.{js,jsx}', '!**/node_modules/**'],
+    coverageReporters: ['lcov', 'text', 'html'],
+    coverageDirectory: 'coverage',
+  };

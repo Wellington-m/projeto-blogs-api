@@ -27,7 +27,7 @@
     "pretest": "(npm run kill:test && NODE_ENV=test npm run start:test) &",
     "test": "npx -y wait-on -t 300000 http://localhost:3030 && NODE_ENV=test jest -i --verbose --detectOpenHandles",
     "posttest": "npm run kill:test",
-    "test-coverage": "jest -i --verbose --forceExit --coverage",
+    "test-coverage": "jest --coverage",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
