@@ -16,12 +16,20 @@ describe("Rota de login", () => {
     });
 
     it("É possível fazer login com sucesso", async () => {
-        const response = await frisby.post(`${apiURL}/login`, { 
+        const { json: { token } } = await frisby.post(`${apiURL}/login`, { 
             email: 'lewishamilton@gmail.com',
             password: '123456',
         })
         .expect('status', 200);
 
-        console.log(response);
+        expect(typeof token).toBe('string');
+
+        try {
+            const decoded = jwt.verify(token, 'secret');
+            expect(decoded).toHaveProperty('id');
+          } catch (error) {
+            console.log(error);
+            throw Error('Seu `token` não consegue ser verificado');
+          }
     });
 });
