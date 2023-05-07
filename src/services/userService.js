@@ -22,6 +22,7 @@ const findAll = async () => {
   const result = await userModel.findAll({
     attributes: ['id', 'displayName', 'email', 'image'],
   });
+  if (result.length === 0) return null;
   return result;
 };
 

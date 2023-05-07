@@ -1,6 +1,7 @@
 const userService = require('../services/userService');
 
 const ERROR_MESSAGE = 'Server error';
+const USER_NOT_FOUND_ERROR = 'No user was found!';
 
 const login = async (req, res) => {
   try {
@@ -29,6 +30,7 @@ const findByPk = async (req, res) => {
 const findAll = async (_req, res) => {
   try {
     const result = await userService.findAll();
+    if (!result) return res.status(204).json({ message: USER_NOT_FOUND_ERROR });
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: ERROR_MESSAGE });
