@@ -4,7 +4,7 @@ const shell = require('shelljs');
 const { User: userModel } = require('../../src/database/models');
 const { sequelize: sequelizeCli, apiURL } = require('../helpers/constants');
 
-describe('Rota user - procurar usuário pelo ID', () => {
+describe('GET Rota: user/:id - procurar usuário pelo ID', () => {
     beforeAll(() => {
         shell.exec([
           sequelizeCli.drop,
