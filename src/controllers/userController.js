@@ -51,9 +51,13 @@ const create = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-  const { id } = req;
-  const result = await userService.destroy(id);
-  if (result) return res.status(204).json();
+    try {
+      const { id } = req;
+      const result = await userService.destroy(id);
+      if (result) return res.status(204).json();
+    } catch (error) {
+        return res.status(500).json({ message: ERROR_MESSAGE });
+    }
 };
 
 module.exports = { login, create, findAll, findByPk, destroy };
