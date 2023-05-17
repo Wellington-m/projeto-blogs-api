@@ -1,7 +1,19 @@
 const frisby = require('frisby');
-const {apiURL} = require('../../helpers/constants');
+const shell = require('shelljs');
+const {sequelize: sequelizeCli ,apiURL} = require('../../helpers/constants');
 
-describe('GET Rota: /post/search - Procurar um post pelo título ou conteúdo', () => {    
+describe('GET Rota: /post/search - Procurar um post pelo título ou conteúdo', () => {   
+    beforeEach(() => {
+        shell.exec([
+            sequelizeCli.drop,
+            sequelizeCli.create,
+            sequelizeCli.migrate,
+            sequelizeCli.seed,
+        ].join('&&'), {
+            silent: 'false',
+        });
+    });
+    
     it('Encontra um post', async () => {
         const { json: { token } } = await frisby.post(`${apiURL}/login`, {
             email: 'lewishamilton@gmail.com',
