@@ -1,0 +1,1 @@
+describe('GET Rota: /post/ - Lista os posts do usuário logado', () => {});
