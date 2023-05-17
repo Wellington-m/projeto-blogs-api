@@ -18,6 +18,14 @@ module.exports = {
           published: new Date('2011-08-01T19:58:00.000Z'),
           updated: new Date('2011-08-01T19:58:51.000Z'),
         },
+        {
+        id: 3,
+        title: 'Outro usuário',
+        content: 'Guardiões da galaxia',
+        userId: 2,
+        published: new Date('2011-08-01T19:58:00.000Z'),
+        updated: new Date('2011-08-01T19:58:51.000Z'),
+        },
       ]);
   },
 
