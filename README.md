@@ -74,4 +74,4 @@ As rotas disponíveis são:
   * Node.js com Express
   * JWT
   * Sequelize
-  * Jest para testes
+  * Jest e Frisby para testes
