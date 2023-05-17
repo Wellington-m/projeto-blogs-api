@@ -13,7 +13,7 @@ const createPostschemaJoi = Joi.object({
   }),
   categoryIds: Joi.array().required().items(
     Joi.number().strict().required().messages({
-      'number.base': 'CategoryId deve ser um número',
+      'number.base': 'CategoryId must be a number',
     }),
     )
     .messages({

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684350113826" clover="3.2.0">
-  <project timestamp="1684350113827" name="All files">
-    <metrics statements="656" coveredstatements="0" conditionals="25" coveredconditionals="0" methods="25" coveredmethods="0" elements="706" coveredelements="0" complexity="0" loc="656" ncloc="656" packages="7" files="25" classes="25"/>
+<coverage generated="1684352161039" clover="3.2.0">
+  <project timestamp="1684352161039" name="All files">
+    <metrics statements="655" coveredstatements="0" conditionals="25" coveredconditionals="0" methods="25" coveredmethods="0" elements="705" coveredelements="0" complexity="0" loc="655" ncloc="655" packages="7" files="25" classes="25"/>
     <package name="src">
       <metrics statements="31" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="api.js" path="/home/wellington/projetos_pinados/blogs-api/src/api.js">
@@ -411,7 +411,7 @@
       </file>
     </package>
     <package name="src.middlewares">
-      <metrics statements="78" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <metrics statements="77" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="6" coveredmethods="0"/>
       <file name="createCategoryValidation.js" path="/home/wellington/projetos_pinados/blogs-api/src/middlewares/createCategoryValidation.js">
         <metrics statements="13" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
@@ -429,7 +429,7 @@
         <line num="13" count="0" type="stmt"/>
       </file>
       <file name="createPostValidation.js" path="/home/wellington/projetos_pinados/blogs-api/src/middlewares/createPostValidation.js">
-        <metrics statements="11" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="10" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -440,7 +440,6 @@
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
       </file>
       <file name="createUserValidation.js" path="/home/wellington/projetos_pinados/blogs-api/src/middlewares/createUserValidation.js">
         <metrics statements="13" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
