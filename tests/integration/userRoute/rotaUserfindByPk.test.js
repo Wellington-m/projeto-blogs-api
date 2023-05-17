@@ -1,8 +1,8 @@
 const frisby = require('frisby');
 const shell = require('shelljs');
 // const userService = require('../../src/services/userService');
-const { User: userModel } = require('../../src/database/models');
-const { sequelize: sequelizeCli, apiURL } = require('../helpers/constants');
+const { User: userModel } = require('../../../src/database/models');
+const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 
 describe('GET Rota: user/:id - procurar usuário pelo ID', () => {
     beforeAll(() => {

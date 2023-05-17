@@ -1,5 +1,5 @@
 const frisby = require('frisby');
-const { sequelize: sequelizeCli, apiURL } = require('../helpers/constants');
+const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 const shell = require('shelljs');
 
 describe('POST Rota: categories/ - Cadastrar uma categoria', () => {

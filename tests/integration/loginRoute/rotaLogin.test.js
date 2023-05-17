@@ -1,7 +1,7 @@
 const frisby = require('frisby');
 const jwt = require('jsonwebtoken');
 const shell = require('shelljs');
-const { sequelize: sequelizeCli, apiURL } = require('../helpers/constants');
+const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 
 describe("Rota login", () => {
     beforeAll(() => {

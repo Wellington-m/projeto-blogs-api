@@ -1,6 +1,6 @@
 const frisby = require('frisby');
-const { sequelize: sequelizeCli, apiURL } = require('../helpers/constants');
-const { user } = require('../helpers/mockUser');
+const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
+const { user } = require('../../helpers/mockUser');
 const shell = require('shelljs');
 
 describe('POST Rota: user/ - Cadastrar usuário', () => {

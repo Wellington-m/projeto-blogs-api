@@ -1,5 +1,5 @@
 const frisby = require('frisby');
-const {sequelize: sequelizeCli, apiURL} = require('../helpers/constants');
+const {apiURL} = require('../../helpers/constants');
 
 describe('GET Rota: /post/search - Procurar um post pelo título ou conteúdo', () => {    
     it('Encontra um post', async () => {
