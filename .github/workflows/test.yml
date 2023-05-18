@@ -16,13 +16,8 @@ jobs:
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: Install dependencies
-        run: npm install
+      - name: Exec containers
+        run: docker exec -it blogs_api bash
 
       - name: Run Jest tests
         run: npm run test
