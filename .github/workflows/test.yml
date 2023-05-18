@@ -23,6 +23,10 @@ jobs:
 
       - name: Sets up MySQL
         uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: 1234
+          mysql user: 'root'
+          mysql password: 1234
 
       - name: Wait for database
         run: |
