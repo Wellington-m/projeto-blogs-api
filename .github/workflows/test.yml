@@ -1,7 +1,9 @@
 name: Run Jest tests
 
-pull_request:
-  types: [opened, synchronize]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   test:
@@ -12,7 +14,7 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: '1234' 
-          MYSQL_DATABASE: blogs-api-test
+          MYSQL_DATABASE: blogs-api
         ports:
           - 3306:3306
         options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 5
