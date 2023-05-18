@@ -13,6 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,15 +23,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Sets up MySQL
-        uses: shogo82148/actions-setup-mysql@v1
-        with:
-          mysql-version: '5.7'
-
-      - name: Wait for database
-        run: |
-          while ! nc -z localhost 3306; do sleep 1; done
 
       - name: Run Jest tests
         run: npm run test
