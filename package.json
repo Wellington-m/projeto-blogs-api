@@ -25,7 +25,7 @@
     "drop": "npx sequelize-cli db:drop",
     "seed": "npx sequelize-cli db:seed:all",
     "pretest": "(npm run kill:test && NODE_ENV=test npm run start:test) &",
-    "test": "npx -y wait-on -t 300000 http://localhost:3030 && NODE_ENV=test jest --testPathPattern='tests/unit/services/categoryService.test.js' -i --verbose",
+    "test": "npx -y wait-on -t 300000 http://localhost:3030 && NODE_ENV=test jest -i --verbose",
     "posttest": "npm run kill:test",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
