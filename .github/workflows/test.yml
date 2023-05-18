@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Sets up MySQL
-        uses: samin/mysql-action@v1
+        uses: mirromutth/mysql-action@v1.1
 
       - name: Wait for database
         run: |
