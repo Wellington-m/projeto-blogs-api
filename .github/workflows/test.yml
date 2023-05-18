@@ -22,11 +22,11 @@ jobs:
         run: npm install
 
       - name: Sets up MySQL
-        uses: mirromutth/mysql-action@v1.1
+        uses: shogo82148/actions-setup-mysql@v1
         with:
-          mysql root password: 1234
-          mysql user: 'root'
-          mysql password: 1234
+          mysql-version: '8.0'
+      
+      - run: mysql -uroot -h127.0.0.1
 
       - name: Wait for database
         run: |
