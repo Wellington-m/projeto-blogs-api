@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const sequelizeConfig = require('../../src/database/config/config');
-const { sequelize: sequelizeCli } = require('../helpers/constants');
-const queries = require('../helpers/queries');
+const sequelizeConfig = require('../../../src/database/config/config');
+const { sequelize: sequelizeCli } = require('../../helpers/constants');
+const queries = require('../../helpers/queries');
 const shell = require('shelljs');
 
 describe("Cria migrations para as entidades User, Categories, BlogPosts e PostCategories", () => {
