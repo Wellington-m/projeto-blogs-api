@@ -3,7 +3,7 @@ const { sequelize: sequelizeCli } = require('../helpers/constants');
 const shell = require('shelljs');
 
 describe("Cria migrations para as entidades User, Categories, BlogPosts e PostCategories", () => {
-  
+
   afterEach(() => {
     shell.exec(sequelizeCli.posttest, {
       silent: false,
@@ -11,14 +11,22 @@ describe("Cria migrations para as entidades User, Categories, BlogPosts e PostCa
   });
 
   it("É possível fazer um INSERT e um SELECT na tabela User", async () => {
-      const user = await User.create({
+      const userCreate = await User.create({
         displayName: "ola",
         email: "lewishamilton@gmail.com",
         password: "123456",
         image: "teste"
       });
 
-      console.log(user);
+      expect(userCreate).toHaveProperty('displayName', 'email', 'password', 'image');
+
+      const userFind = await User.findAll({
+        where: {
+          displayName: 'ola',
+        }
+      });
+
+      expect(userFind).toEqual()
   });
 
   it("É possível fazer um INSERT e um SELECT na tabela Categories", async () => {
