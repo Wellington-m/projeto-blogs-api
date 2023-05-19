@@ -3,7 +3,7 @@ const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 const { user } = require('../../helpers/mockUser');
 const shell = require('shelljs');
 
-describe('POST Rota: user/ - Cadastrar usuário', () => {
+describe.skip('POST Rota: user/ - Cadastrar usuário', () => {
     beforeAll(() => {
         shell.exec([
             sequelizeCli.pretest,

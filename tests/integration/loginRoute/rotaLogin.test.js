@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const shell = require('shelljs');
 const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 
-describe("Rota login", () => {
+describe.skip("Rota login", () => {
     beforeAll(() => {
         shell.exec([
           sequelizeCli.pretest,

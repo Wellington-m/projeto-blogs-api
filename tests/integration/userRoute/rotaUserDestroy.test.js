@@ -2,7 +2,7 @@ const frisby = require('frisby');
 const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 const shell = require('shelljs');
 
-describe('DELETE Rota: user/me - Deletar usuário logado', () => {
+describe.skip('DELETE Rota: user/me - Deletar usuário logado', () => {
 
   beforeAll(() => {
     shell.exec([

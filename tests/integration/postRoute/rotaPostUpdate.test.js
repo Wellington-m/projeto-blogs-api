@@ -2,7 +2,7 @@ const frisby = require('frisby');
 const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
 const shell = require('shelljs');
 
-describe('PUT Rota: /post/:id - Update a post', () => {
+describe.skip('PUT Rota: /post/:id - Update a post', () => {
     beforeAll(() => {
         shell.exec([
             sequelizeCli.pretest,

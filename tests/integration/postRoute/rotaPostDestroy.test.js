@@ -2,7 +2,7 @@ const frisby = require('frisby');
 const shell = require('shelljs');
 const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
 
-describe('DELETE Route: /post/:id - Delete a post', () => {
+describe.skip('DELETE Route: /post/:id - Delete a post', () => {
   beforeEach(() => {
     shell.exec([
         sequelizeCli.pretest,

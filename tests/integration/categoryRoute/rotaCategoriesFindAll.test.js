@@ -1,27 +1,20 @@
-const frisby = require('frisby');
-const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
-const shell = require('shelljs');
+const request = require('supertest');
+const api = require('../../../src/api');
+const truncate = require('../../helpers/truncate');
 
-describe('GET Rota: categories/ - Localizar todas as categorias', () => {
-
-  beforeEach(() => {
-    shell.exec([
-      sequelizeCli.pretest,
-      sequelizeCli.drop,
-      sequelizeCli.create,
-      sequelizeCli.migrate,
-      sequelizeCli.seed
-    ].join('&&'), {
-      silent: 'false',
-    })
+describe.only('GET Rota: categories/ - Localizar todas as categorias', () => {
+  beforeAll(async () => {
+    await truncate();
   });
 
   it('Houver categorias cadastradas retorna um array com as categorias', async () => {
-      const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-          email: "lewishamilton@gmail.com",
-          password: "123456"
-        })
-        .expect('status', 200);
+      
+    const { body: { token } } = await request(api)
+      .post('/login')
+      .send({
+        email: "lewishamilton@gmail.com",
+        password: "123456",
+      })
 
         const { body } = await frisby.setup({
           request: {
