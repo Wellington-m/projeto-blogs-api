@@ -1,15 +1,16 @@
 const frisby = require('frisby');
-const { sequelize: sequelizeCLI, apiURL } = require('../../helpers/constants');
+const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 const shell = require('shelljs');
 
 describe('GET Rota: categories/ - Localizar todas as categorias', () => {
 
   beforeEach(() => {
     shell.exec([
-      sequelizeCLI.drop,
-      sequelizeCLI.create,
-      sequelizeCLI.migrate,
-      sequelizeCLI.seed,
+      sequelizeCli.pretest,
+      sequelizeCli.drop,
+      sequelizeCli.create,
+      sequelizeCli.migrate,
+      sequelizeCli.seed
     ].join('&&'), {
       silent: 'false',
     })
@@ -46,9 +47,10 @@ describe('GET Rota: categories/ - Localizar todas as categorias', () => {
     .expect('status', 200);
 
     shell.exec([
-      sequelizeCLI.drop,
-      sequelizeCLI.create,
-      sequelizeCLI.migrate,
+      sequelizeCli.pretest,
+      sequelizeCli.drop,
+      sequelizeCli.create,
+      sequelizeCli.migrate,
     ].join('&&'), {
       silent: 'false',
     })

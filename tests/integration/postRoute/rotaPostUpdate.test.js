@@ -5,10 +5,11 @@ const shell = require('shelljs');
 describe('PUT Rota: /post/:id - Update a post', () => {
     beforeAll(() => {
         shell.exec([
+            sequelizeCli.pretest,
             sequelizeCli.drop,
             sequelizeCli.create,
             sequelizeCli.migrate,
-            sequelizeCli.seed,
+            sequelizeCli.seed
         ].join('&&'), {
             silent: 'false',
         })

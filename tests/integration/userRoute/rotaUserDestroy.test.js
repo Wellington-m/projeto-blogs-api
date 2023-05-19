@@ -6,10 +6,11 @@ describe('DELETE Rota: user/me - Deletar usuário logado', () => {
 
   beforeAll(() => {
     shell.exec([
-      sequelizeCli.drop,
-      sequelizeCli.create,
-      sequelizeCli.migrate,
-      sequelizeCli.seed,
+        sequelizeCli.pretest,
+        sequelizeCli.drop,
+        sequelizeCli.create,
+        sequelizeCli.migrate,
+        sequelizeCli.seed
     ].join('&&'), { silent: 'false' })
   });
 

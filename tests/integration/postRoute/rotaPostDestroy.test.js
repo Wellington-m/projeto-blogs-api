@@ -5,10 +5,11 @@ const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
 describe('DELETE Route: /post/:id - Delete a post', () => {
   beforeEach(() => {
     shell.exec([
+        sequelizeCli.pretest,
         sequelizeCli.drop,
         sequelizeCli.create,
         sequelizeCli.migrate,
-        sequelizeCli.seed,
+        sequelizeCli.seed
     ].join('&&'), {
         silent: 'false',
     })

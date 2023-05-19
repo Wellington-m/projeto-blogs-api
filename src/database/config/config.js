@@ -7,10 +7,9 @@ module.exports = {
   password: process.env.MYSQL_PASSWORD || 'password',
   port: process.env.MYSQL_PORT || '3306',
   database: process.env.MYSQL_DATABASE || 'blogs-api',
-  dialect: process.env.DIALECT || 'mysql',
+  dialect: process.env.DB_DIALECT || 'mysql',
   storage: './tests/database.sqlite',
   dialectOptions: {
     timezone: 'Z',
   },
-  logging: 'false',
 };

@@ -6,6 +6,7 @@ const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 describe("Rota login", () => {
     beforeAll(() => {
         shell.exec([
+          sequelizeCli.pretest,
           sequelizeCli.drop,
           sequelizeCli.create,
           sequelizeCli.migrate,

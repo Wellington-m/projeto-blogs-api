@@ -6,10 +6,11 @@ const shell = require('shelljs');
 describe('POST Rota: user/ - Cadastrar usuário', () => {
     beforeAll(() => {
         shell.exec([
-          sequelizeCli.drop,
-          sequelizeCli.create,
-          sequelizeCli.migrate,
-          sequelizeCli.seed
+            sequelizeCli.pretest,
+            sequelizeCli.drop,
+            sequelizeCli.create,
+            sequelizeCli.migrate,
+            sequelizeCli.seed
         ].join(' && '),
           { silent: process.env.DEBUG === "false" });
     });

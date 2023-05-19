@@ -5,10 +5,11 @@ const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
 describe('GET Rota: /post/ - Lista todos os posts', () => {
     beforeEach(() => {
         shell.exec([
+            sequelizeCli.pretest,
             sequelizeCli.drop,
             sequelizeCli.create,
             sequelizeCli.migrate,
-            sequelizeCli.seed,
+            sequelizeCli.seed
         ].join('&&'), {
             silent: 'false',
         })
@@ -22,6 +23,7 @@ describe('GET Rota: /post/ - Lista todos os posts', () => {
         .expect('status', 200);
 
         shell.exec([
+            sequelizeCli.pretest,
             sequelizeCli.drop,
             sequelizeCli.create,
             sequelizeCli.migrate,

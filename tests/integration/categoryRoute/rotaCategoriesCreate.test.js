@@ -5,6 +5,7 @@ const shell = require('shelljs');
 describe('POST Rota: categories/ - Cadastrar uma categoria', () => {
     beforeAll(() => {
         shell.exec([
+            sequelizeCli.pretest,
             sequelizeCli.drop,
             sequelizeCli.create,
             sequelizeCli.migrate,
