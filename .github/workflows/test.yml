@@ -9,17 +9,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: adambirds/docker-compose-action@v1.3.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          compose-file: "./docker-compose.yml"
-          down-flags: "--volumes"
-          services: |
-            node
-            db
-          test-container: node
-          test-command: "npm test"
+          node-version: 16
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          sudo service mysql start
+          npm test
 
