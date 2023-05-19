@@ -21,7 +21,7 @@ module.exports = {
         categoryId: 1,
       }
     },
-    expect: {
+    result: {
       user: {
         id: 1,
         displayName: 'Brett Wiltshire',
