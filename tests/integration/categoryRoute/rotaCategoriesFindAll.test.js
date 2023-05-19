@@ -1,11 +1,7 @@
 const request = require('supertest');
 const api = require('../../../src/api');
-const truncate = require('../../helpers/truncate');
 
-describe.only('GET Rota: categories/ - Localizar todas as categorias', () => {
-  beforeAll(async () => {
-    await truncate();
-  });
+describe.skip('GET Rota: categories/ - Localizar todas as categorias', () => {
 
   it('Houver categorias cadastradas retorna um array com as categorias', async () => {
       

@@ -25,7 +25,7 @@
     "seed": "npx sequelize-cli db:seed:all",
     "pretest": "NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest -i --verbose",
-    "posttest": "sequelize db:migrate:undo:all",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
