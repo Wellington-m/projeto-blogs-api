@@ -20,15 +20,12 @@
   "scripts": {
     "prestart": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
     "start": "node .",
-    "ola2": "NODE_ENV=test sequelize db:migrate npm run ola",
-    "ola": "node .",
-    "start:test": "API_PORT=3030 NODE_ENV=test npm run ola2",
     "kill:test": "kill -9 $(lsof -t -i:3030) &> /dev/null",
     "drop": "npx sequelize-cli db:drop",
     "seed": "npx sequelize-cli db:seed:all",
-    "pretest": "NODE_ENV=test npm run start:test",
-    "test": "npx -y wait-on -t 300000 http://localhost:3030 && NODE_ENV=test jest -i --verbose",
-    "posttest": "npm run kill:test",
+    "pretest": "NODE_ENV=test sequelize db:migrate",
+    "test": "NODE_ENV=test jest ./tests/integration/categoryRoute/rotaCategoriesCreate.test.js -i --verbose",
+    "posttest": "sequelize db:migrate:undo:all",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },

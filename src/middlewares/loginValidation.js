@@ -2,6 +2,7 @@ const loginSchema = require('../helpers/loginSchemaJoi');
 
 const loginValidation = (req, res, next) => {
   const { email, password } = req.body;
+  console.log('OLAAAAAAAAAAA', req.body);
 
   const { error } = loginSchema.validate({ email, password });
 
