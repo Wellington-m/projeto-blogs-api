@@ -13,11 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Start containers
-        run: docker-compose -f "docker-compose.yml" up -d
+      - uses: adambirds/docker-compose-action@v1.3.0
+        with:
+          compose-file: "./docker-compose.yml"
+          down-flags: "--volumes"
+          services: |
+            node
+            db
+          test-container: node
+          test-command: "npm test"
 
-      - name: Exec containers
-        run: docker exec -it blogs_api bash
-
-      - name: Run Jest tests
-        run: npm run test
