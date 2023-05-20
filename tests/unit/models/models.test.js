@@ -3,16 +3,16 @@ const {
   Category,
   BlogPost,
   PostCategory,
-} = require('../../src/database/models');
+} = require('../../../src/database/models');
 const {
   registerUser,
   registerCategory,
   registerBlogPost,
   registerPostCategory,
-} = require('../helpers/registerData');
-const { sequelize: sequelizeCli } = require('../helpers/constants');
+} = require('../../helpers/registerData');
+const { sequelize: sequelizeCli } = require('../../helpers/constants');
 const shell = require('shelljs');
-const { insert, result } = require('../helpers/queries');
+const { insert, result } = require('../../helpers/queries');
 
 describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCategories', () => {
   beforeEach(() => {
