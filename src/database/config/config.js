@@ -1,5 +1,6 @@
 require('dotenv').config({
-    path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+});
 
 module.exports = {
   host: process.env.MYSQL_HOST,
@@ -8,5 +9,8 @@ module.exports = {
   port: process.env.MYSQL_PORT,
   database: process.env.MYSQL_DATABASE,
   dialect: process.env.DB_DIALECT,
+  dialectOptions: {
+    timezone: 'Z',
+  },
   storage: './tests/database.sqlite',
 };
