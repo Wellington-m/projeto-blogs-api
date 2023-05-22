@@ -5,7 +5,7 @@ const { User } = require('../../../src/database/models');
 const api = require('../../../src/api');
 const { sequelize: sequelizeCli } = require('../../helpers/constants');
 
-describe.skip('Rota login', () => {
+describe('Rota login', () => {
   beforeAll(async () => {
     shell.exec(sequelizeCli.beforetest, {
       silent: process.env.DEBUG === 'false',
@@ -25,10 +25,10 @@ describe.skip('Rota login', () => {
     });
   });
 
-  it('É possível fazer login com sucesso', async () => {
+  it('is possible to login with success', async () => {
     const response = await request(api).post('/login').send({
       email: 'lewishamilton@gmail.com',
-      password: '123456s',
+      password: '123456',
     });
 
     const { token } = response.body;
@@ -45,25 +45,23 @@ describe.skip('Rota login', () => {
     }
   });
 
-  it('Não é possível fazer login sem todos os campos preenchidos', async () => {
-    const { body } = await frisby
-      .post(`${apiURL}/login`, {
-        email: '',
-        password: '',
-      })
-      .expect('status', 400);
-    const result = JSON.parse(body);
-    expect(result.message).toBe('Some required fields are missing');
+  it('is not possible to login without all fields filled in', async () => {
+    const response = await request(api).post('/login').send({
+      email: '',
+      password: '',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Some required fields are missing');
   });
 
-  it('Não é possível fazer login com um usuário que não existe', async () => {
-    const { body } = await frisby
-      .post(`${apiURL}/login`, {
-        email: 'naotemcadastro@algumacoisa.com',
-        password: 'teste',
-      })
-      .expect('status', 400);
-    const result = JSON.parse(body);
-    expect(result.message).toBe('Invalid fields');
+  it('is not possible to login with user that does not exist', async () => {
+    const response = await request(api).post('/login').send({
+      email: 'naotemcadastro@algumacoisa.com',
+      password: 'teste',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Invalid fields');
   });
 });
