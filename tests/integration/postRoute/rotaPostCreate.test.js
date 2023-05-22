@@ -1,91 +1,139 @@
-const frisby = require('frisby');
+const request = require('supertest');
 const shell = require('shelljs');
-const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
+const api = require('../../../src/api');
+const { User, Category } = require('../../../src/database/models');
+const { sequelize: sequelizeCli } = require('../../helpers/constants');
 
-describe.skip('POST.skip Route: /post - Create a post', () => {
-    beforeEach(() => {
-        shell.exec([
-            sequelizeCli.pretest,
-            sequelizeCli.drop,
-            sequelizeCli.create,
-            sequelizeCli.migrate,
-            sequelizeCli.seed
-        ].join('&&'), {
-            silent: 'false',
-        })
+describe('POST Route: /post - Create a post', () => {
+  beforeAll(async () => {
+    shell.exec(sequelizeCli.beforetest, {
+      silent: false,
     });
-    it('isnt possible create a post without title, content and categoryId', async () => {
-      const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-          email: 'lewishamilton@gmail.com',
-          password: '123456',
-      })
-      .expect('status', 200);
 
-      const { body } = await frisby.setup({
-        request: {
-            headers: {
-                'Authorization': token,
-            }
-        }
-      })
-      .post(`${apiURL}/post`, {
-        content: "O campeão do ano!",
+    await User.create({
+      displayName: 'lewis',
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+      image: 'teste',
+    });
+
+    await Category.create({
+      name: 'Categoria 1',
+    });
+  });
+
+  afterAll(() => {
+    shell.exec(sequelizeCli.posttest, {
+      silent: false,
+    });
+  });
+
+  it('isnt possible create a post without title', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+    });
+
+    const response = await request(api)
+      .post('/post')
+      .set('Authorization', token)
+      .send({
+        content: 'O campeão do ano!',
         categoryIds: [1],
-      })
-      .expect('status', 400);
+      });
 
-      const result = JSON.parse(body);
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Some required fields are missing');
+  });
 
-      expect(result.message).toBe('Some required fields are missing');
-
+  it('isnt possible create a post without content', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
     });
-    it('isnt possible create a post with invalid categoryId', async () => {
-      const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-        email: 'lewishamilton@gmail.com',
-        password: '123456',
-      })
-      .expect('status', 200);
 
-      const { body } = await frisby.setup({
-        request: {
-            headers: {
-                'Authorization': token,
-            }
-        }
-      })
-      .post(`${apiURL}/post`, {
-        title: "Teste titulo",
-        content: "O campeão do ano!",
+    const response = await request(api)
+      .post('/post')
+      .set('Authorization', token)
+      .send({
+        title: 'teste',
+        categoryIds: [1],
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Some required fields are missing');
+  });
+
+  it('isnt possible create a post without category', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+    });
+
+    const response = await request(api)
+      .post('/post')
+      .set('Authorization', token)
+      .send({
+        title: 'teste',
+        content: 'Thor: o vingador mais forte',
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Some required fields are missing');
+  });
+
+  it('isnt possible create a post with invalid categoryId', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+    });
+
+    const response = await request(api)
+      .post('/post')
+      .set('Authorization', token)
+      .send({
+        title: 'Teste titulo',
+        content: 'O campeão do ano!',
         categoryIds: [10],
-      })
-      .expect('status', 400);
+      });
 
-      const result = JSON.parse(body);
-      expect(result.message).toBe('"categoryIds" not found');
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('"categoryIds" not found');
+  });
 
+  fit('is possible create a post', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
     });
-    it('is possible create a post', async () => {
-      const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-        email: 'lewishamilton@gmail.com',
-        password: '123456',
-      })
-      .expect('status', 200);
 
-      const { body } = await frisby.setup({
-        request: {
-            headers: {
-                'Authorization': token,
-            }
-        }
-      })
-      .post(`${apiURL}/post`, {
-        title: "Teste titulo",
-        content: "O campeão do ano!",
+    const response = await request(api)
+      .post('/post')
+      .set('Authorization', token)
+      .send({
+        title: 'Teste titulo',
+        content: 'O campeão do ano!',
         categoryIds: [1],
-      })
-      .expect('status', 201);
+      });
 
-      const result = JSON.parse(body);
-      expect(result).toHaveProperty('id', 'title', 'content', 'userId', 'published', 'updated');
-    });
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty(
+      'id',
+      'title',
+      'content',
+      'userId',
+      'published',
+      'updated'
+    );
+  });
 });
