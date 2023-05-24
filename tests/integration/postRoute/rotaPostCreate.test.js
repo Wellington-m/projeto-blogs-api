@@ -1,7 +1,7 @@
 const request = require('supertest');
 const shell = require('shelljs');
 const api = require('../../../src/api');
-const { User, Category } = require('../../../src/database/models');
+const { registerUser, registerCategory } = require('../../helpers/registerData');
 const { sequelize: sequelizeCli } = require('../../helpers/constants');
 
 describe('POST Route: /post - Create a post', () => {
@@ -10,16 +10,8 @@ describe('POST Route: /post - Create a post', () => {
       silent: false,
     });
 
-    await User.create({
-      displayName: 'lewis',
-      email: 'lewishamilton@gmail.com',
-      password: '123456',
-      image: 'teste',
-    });
-
-    await Category.create({
-      name: 'Categoria 1',
-    });
+    await registerUser();
+    await registerCategory();
   });
 
   afterAll(() => {
@@ -32,7 +24,7 @@ describe('POST Route: /post - Create a post', () => {
     const {
       body: { token },
     } = await request(api).post('/login').send({
-      email: 'lewishamilton@gmail.com',
+      email: 'brett@email.com',
       password: '123456',
     });
 
@@ -52,7 +44,7 @@ describe('POST Route: /post - Create a post', () => {
     const {
       body: { token },
     } = await request(api).post('/login').send({
-      email: 'lewishamilton@gmail.com',
+      email: 'brett@email.com',
       password: '123456',
     });
 
@@ -72,7 +64,7 @@ describe('POST Route: /post - Create a post', () => {
     const {
       body: { token },
     } = await request(api).post('/login').send({
-      email: 'lewishamilton@gmail.com',
+      email: 'brett@email.com',
       password: '123456',
     });
 
@@ -92,7 +84,7 @@ describe('POST Route: /post - Create a post', () => {
     const {
       body: { token },
     } = await request(api).post('/login').send({
-      email: 'lewishamilton@gmail.com',
+      email: 'brett@email.com',
       password: '123456',
     });
 
@@ -113,7 +105,7 @@ describe('POST Route: /post - Create a post', () => {
     const {
       body: { token },
     } = await request(api).post('/login').send({
-      email: 'lewishamilton@gmail.com',
+      email: 'brett@email.com',
       password: '123456',
     });
 

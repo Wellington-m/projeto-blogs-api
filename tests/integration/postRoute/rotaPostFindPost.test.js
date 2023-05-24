@@ -1,71 +1,51 @@
-const frisby = require('frisby');
+const request = require('supertest');
 const shell = require('shelljs');
-const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
+const api = require('../../../src/api');
+const {sequelize: sequelizeCli} = require('../../helpers/constants');
+const { registerUser, registerBlogPost ,registerCategory, registerPostCategory } = require('../../helpers/registerData');
 
-describe.skip('GET Rota: /post/ - Lista todos os posts', () => {
-    beforeEach(() => {
-        shell.exec([
-            sequelizeCli.pretest,
-            sequelizeCli.drop,
-            sequelizeCli.create,
-            sequelizeCli.migrate,
-            sequelizeCli.seed
-        ].join('&&'), {
-            silent: 'false',
-        })
+describe('GET Rota: /post/ - Lista todos os posts', () => {
+    beforeAll(async () => {
+        shell.exec(sequelizeCli.beforetest, {
+            silent: false,
+        });
+
+        await registerUser();
     });
 
-    it('Retorna um array vazio caso não exista nenhum post cadastrado', async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-            email: 'lewishamilton@gmail.com',
-            password: '123456',
-        })
-        .expect('status', 200);
-
-        shell.exec([
-            sequelizeCli.pretest,
-            sequelizeCli.drop,
-            sequelizeCli.create,
-            sequelizeCli.migrate,
-        ].join('&&'), {
-            silent: 'false',
-        })
-
-        const { body } = await frisby.setup({
-            request: {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        })
-        .get(`${apiURL}/post`)
-        .expect('status', 200);
-
-        const result = JSON.parse(body);
-
-        expect(result).toHaveLength(0);
+    afterAll(() => {
+      shell.exec(sequelizeCli.posttest, {
+        silent: false,
+      })
     });
-    it('Retorna um array com os posts cadastrado', async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-            email: 'lewishamilton@gmail.com',
-            password: '123456',
-        }).expect('status', 200);
 
-        const { body } = await frisby.setup({
-            request: {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        })
-        .get(`${apiURL}/post`)
-        .expect('status', 200);
+    it('Returns an empty array if there is no registered post', async () => {
+        const { body: { token } } = await request(api).post('/login').send({
+          email: 'brett@email.com',
+          password: '123456',
+        });
 
-        const result = JSON.parse(body);
+        const response = await request(api).get('/post').set('Authorization', token);
+        
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveLength(0);
+    });
+    it('Returns an array with registered posts', async () => {
+      await registerBlogPost();
+      await registerCategory();
+      await registerPostCategory();
 
-        expect(result[0]).toHaveProperty('id', 'title', 'content', 'userId', 'published', 'updated');
-        expect(result[0].user).toHaveProperty('id', 'displayName', 'email', 'image');
-        expect(result[0].categories[0]).toHaveProperty('id');
-        expect(result[0].categories[0]).toHaveProperty('name');
+        const { body: { token } } = await request(api).post('/login').send({
+          email: 'brett@email.com',
+          password: '123456',
+        });
+
+        const response = await request(api).get('/post').set('Authorization', token);
+        
+        expect(response.status).toBe(200);
+        expect(response.body[0]).toHaveProperty('id', 'title', 'content', 'userId', 'published', 'updated');
+        expect(response.body[0].user).toHaveProperty('id', 'displayName', 'email', 'image');
+        expect(response.body[0].categories[0]).toHaveProperty('id');
+        expect(response.body[0].categories[0]).toHaveProperty('name');
     });
 });
