@@ -1,15 +1,16 @@
 module.exports = {
-  findAllResult:
-  [
+  findAllResult: [
     {
       id: 1,
-      name: "Inovação"
+      name: 'Inovação',
     },
     {
       id: 2,
-      name: "Escola"
-    }
+      name: 'Escola',
+    },
   ],
-  createResult: '',
-
+  createResult: {
+    id: 3,
+    name: 'Teste',
+  },
 };

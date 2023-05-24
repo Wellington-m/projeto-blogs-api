@@ -1,51 +1,67 @@
-const frisby = require('frisby');
+const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const shell = require('shelljs');
-const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
+const { User } = require('../../../src/database/models');
+const api = require('../../../src/api');
+const { sequelize: sequelizeCli } = require('../../helpers/constants');
 
-describe("Rota login", () => {
-    beforeAll(() => {
-        shell.exec([
-          sequelizeCli.drop,
-          sequelizeCli.create,
-          sequelizeCli.migrate,
-          sequelizeCli.seed
-        ].join(' && '),
-          { silent: process.env.DEBUG === "false" });
+describe('Rota login', () => {
+  beforeAll(async () => {
+    shell.exec(sequelizeCli.beforetest, {
+      silent: process.env.DEBUG === 'false',
     });
 
-    it("É possível fazer login com sucesso", async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, { 
-            email: 'lewishamilton@gmail.com',
-            password: '123456',
-        }).expect('status', 200);
+    await User.create({
+      displayName: 'ola',
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+      image: 'teste',
+    });
+  });
 
-        expect(typeof token).toBe('string');
+  afterAll(() => {
+    shell.exec(sequelizeCli.posttest, {
+      silent: false,
+    });
+  });
 
-        try {
-            const decoded = jwt.verify(token, 'secret');
-            expect(decoded).toHaveProperty('id');
-          } catch (error) {
-            console.log(error);
-            throw Error('Seu `token` não consegue ser verificado');
-          }
+  it('is possible to login with success', async () => {
+    const response = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
     });
 
-    it('Não é possível fazer login sem todos os campos preenchidos', async () => {
-        const { body } = await frisby.post(`${apiURL}/login`, {
-            email: '',
-            password: '',
-        }).expect('status', 400);
-        const result = JSON.parse(body);
-        expect(result.message).toBe('Some required fields are missing');
+    const { token } = response.body;
+
+    expect(response.status).toBe(200);
+    expect(typeof token).toBe('string');
+
+    try {
+      const decoded = jwt.verify(token, 'secret');
+      expect(decoded).toHaveProperty('id');
+    } catch (error) {
+      console.log(error);
+      throw Error('Seu `token` não consegue ser verificado');
+    }
+  });
+
+  it('is not possible to login without all fields filled in', async () => {
+    const response = await request(api).post('/login').send({
+      email: '',
+      password: '',
     });
 
-    it('Não é possível fazer login com um usuário que não existe', async () => {
-        const { body } = await frisby.post(`${apiURL}/login`, {
-            email: 'naotemcadastro@algumacoisa.com',
-            password: 'teste',
-        }).expect('status', 400);
-        const result = JSON.parse(body);
-        expect(result.message).toBe('Invalid fields');
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Some required fields are missing');
+  });
+
+  it('is not possible to login with user that does not exist', async () => {
+    const response = await request(api).post('/login').send({
+      email: 'naotemcadastro@algumacoisa.com',
+      password: 'teste',
     });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('Invalid fields');
+  });
 });

@@ -1,68 +1,111 @@
-const Sequelize = require('sequelize');
-const sequelizeConfig = require('../../../src/database/config/config');
+const {
+  User,
+  Category,
+  BlogPost,
+  PostCategory,
+} = require('../../../src/database/models');
+const {
+  registerUser,
+  registerCategory,
+  registerBlogPost,
+  registerPostCategory,
+} = require('../../helpers/registerData');
 const { sequelize: sequelizeCli } = require('../../helpers/constants');
-const queries = require('../../helpers/queries');
 const shell = require('shelljs');
+const { insert, result } = require('../../helpers/queries');
 
-describe("Cria migrations para as entidades User, Categories, BlogPosts e PostCategories", () => {
-    beforeAll(() => {
-        database = new Sequelize(sequelizeConfig.test)
+describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCategories', () => {
+  beforeEach(() => {
+    shell.exec(sequelizeCli.beforetest, {
+      silent: false,
+    });
+  });
+
+  afterEach(() => {
+    shell.exec(sequelizeCli.posttest, {
+      silent: false,
+    });
+  });
+
+  it('É possível fazer um INSERT e um SELECT na tabela User', async () => {
+    const { displayName } = insert.user;
+    const userCreated = await registerUser();
+
+    expect(userCreated).toHaveProperty(
+      'displayName',
+      'email',
+      'password',
+      'image'
+    );
+
+    const [userFind] = await User.findAll({
+      where: {
+        displayName,
+      },
     });
 
-    beforeEach(() => {
-        shell.exec([
-          sequelizeCli.drop,
-          sequelizeCli.create,
-          sequelizeCli.migrate
-        ].join(' && '),
-          { silent: process.env.DEBUG === "false" }); // Imprime erros(stderr) somente se for verdadeiro
-      });
+    expect(userFind.dataValues).toEqual(result.user);
+  });
 
-    it("É possível fazer um INSERT e um SELECT na tabela User", async () => {
-        const insertQuery = await database.query(queries.insert.user, { type: 'INSERT' });
-        expect(insertQuery).toEqual([1, 1]);
+  it('É possível fazer um INSERT e um SELECT na tabela Categories', async () => {
+    const { name } = insert.categories;
+    const categoryCreated = await registerCategory();
 
-        const [result] = await database.query(queries.select.user, { type: 'SELECT' })
-        expect(result).toEqual(queries.expect.user);
+    expect(categoryCreated).toHaveProperty('name');
+
+    const [categoryFind] = await Category.findAll({
+      where: {
+        name,
+      },
     });
 
-    it("É possível fazer um INSERT e um SELECT na tabela Categories", async () => {
-        const insertQuery = await database.query(queries.insert.categories, { type: 'INSERT' });
-        expect(insertQuery).toEqual([1, 1]);
+    expect(categoryFind.dataValues).toEqual(result.categories);
+  });
 
-        const [result] = await database.query(queries.select.categories, { type: 'SELECT' });
-        expect(result).toEqual(queries.expect.categories);
+  it('É possível fazer um INSERT e um SELECT na tabela BlogPosts', async () => {
+    const userCreated = await registerUser();
+
+    expect(userCreated).toHaveProperty(
+      'displayName',
+      'email',
+      'password',
+      'image'
+    );
+
+    const blogPostsCreated = await registerBlogPost();
+
+    expect(blogPostsCreated).toHaveProperty(
+      'title',
+      'content',
+      'userId',
+      'published',
+      'updated'
+    );
+
+    const { title } = insert.blogPosts;
+    const [blogPostFind] = await BlogPost.findAll({
+      where: {
+        title,
+      },
     });
 
-    it("É possível fazer um INSERT e um SELECT na tabela BlogPosts", async () => {
-        const insertQueryUser = await database.query(queries.insert.user, { type: 'INSERT' });
-        expect(insertQueryUser).toEqual([1, 1]);
+    expect(blogPostFind.dataValues).toEqual(
+      expect.objectContaining(result.blogPosts.general)
+    );
 
-        const insertQuery = await database.query(queries.insert.blogPosts, { type: 'INSERT' });
-        expect(insertQuery).toEqual([1, 1]);
+    expect(blogPostFind.dataValues).toEqual(
+      expect.objectContaining({published: expect.any(String), updated: expect.any(String)})
+    );
+  });
 
-        const [result] = await database.query(queries.select.blogPosts, { type: 'SELECT' });
-        expect(result).toEqual(expect.objectContaining(queries.expect.blogPosts.general));
+  it('É possível fazer um INSERT e um SELECT na tabela PostCategories', async () => {
+    const postCategoryCreated = await registerPostCategory();
 
-        expect(Date.parse(result.published)).toEqual(queries.expect.blogPosts.published);
-        expect(Date.parse(result.updated)).toEqual(queries.expect.blogPosts.updated);
+    expect(postCategoryCreated).toHaveProperty('postId');
+    expect(postCategoryCreated).toHaveProperty('categoryId');
 
-    });
+    const [postCategoriesFind] = await PostCategory.findAll();
 
-    it("É possível fazer um INSERT e um SELECT na tabela PostCategories", async () => {
-        const insertQueryUser = await database.query(queries.insert.user, { type: 'INSERT' });
-        expect(insertQueryUser).toEqual([1, 1]);
-
-        const insertQueryCategories = await database.query(queries.insert.categories, { type: 'INSERT' });
-        expect(insertQueryCategories).toEqual([1, 1]);
-
-        const insertQueryBlogPosts = await database.query(queries.insert.blogPosts, { type: 'INSERT' });
-        expect(insertQueryBlogPosts).toEqual([1, 1]);
-
-        const insertQueryPostCategories = await database.query(queries.insert.postCategories, { type: 'INSERT' });
-        expect(insertQueryPostCategories).toEqual([0, 1]);
-
-        const [result] = await database.query(queries.select.postCategories, { type: 'SELECT' });
-        expect(result).toEqual(queries.expect.postCategories);
-    });
-})
+    expect(postCategoriesFind.dataValues).toEqual(result.postCategories);
+  });
+});

@@ -2,20 +2,29 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.sequelize.query(
-      `CREATE TABLE PostCategories (
-        postId INT NOT NULL,
-        categoryId INT NOT NULL,
-        PRIMARY KEY (postId, categoryId),
-        CONSTRAINT fk_blogPosts FOREIGN KEY (postId) REFERENCES BlogPosts (id),
-        CONSTRAINT fk_categories FOREIGN KEY (postId) REFERENCES Categories (id)
-      );`
-    );
+    await queryInterface.createTable("PostCategories", {
+      postId: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        foreignKey: true,
+      },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        foreignKey: true,
+      },
+    }, {
+      uniqueKeys: {
+        Items_unique: {
+          fields: ['postId', 'categoryId']
+        }
+      }
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.sequelize.query(
-      `DROP TABLE PostCategories;`
-    );
+    await queryInterface.dropTable("PostCategories");
   }
 };

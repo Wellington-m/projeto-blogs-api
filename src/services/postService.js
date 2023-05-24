@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { 
+const {
   BlogPost: blogPostModel,
   PostCategory: PostCategoryModel,
   Category: categoryModel,
@@ -13,49 +13,50 @@ const findByPk = async (id) => {
 };
 
 const findBlogPostsAndCategories = async () => {
-  const result = await blogPostModel.findAll(
-    { include: [
-      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
+  const result = await blogPostModel.findAll({
+    include: [
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } },
       { model: categoryModel, as: 'categories', through: { attributes: [] } },
     ],
-    },
-      );
+  });
   return result;
 };
 
 const findBlogPostAndCategoryById = async (id) => {
-  const result = await blogPostModel.findByPk(id,
-    { include: [
-      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
+  const result = await blogPostModel.findByPk(id, {
+    include: [
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } },
       { model: categoryModel, as: 'categories', through: { attributes: [] } },
     ],
-    });
+  });
   return result;
 };
 
 const search = async (q) => {
   const query = `%${q}%`;
   const result = await blogPostModel.findAll({
-    where: { [Op.or]: [
-      {
-        title: { [Op.like]: query },
-      },
-      {
-        content: { [Op.like]: query },
-      },
-    ],
+    where: {
+      [Op.or]: [
+        {
+          title: { [Op.like]: query },
+        },
+        {
+          content: { [Op.like]: query },
+        },
+      ],
     },
     include: [
-      { model: userModel, as: 'user', attributes: { exclude: ['password'] } }, 
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } },
       { model: categoryModel, as: 'categories', through: { attributes: [] } },
-    ], 
-});
+    ],
+  });
 
   return result;
 };
 
 const createBlogPost = async ({ title, content, categoryIds, userId }) => {
-  const categoryIdsPromises = categoryIds.map((id) => categoryModel.findByPk(id));
+  const categoryIdsPromises = categoryIds.map((id) =>
+    categoryModel.findByPk(id));
   const categories = await Promise.all(categoryIdsPromises);
   if (categories.some((category) => category === null)) return false;
   const { dataValues } = await blogPostModel.create({ title, content, userId });
@@ -73,10 +74,7 @@ const update = async ({ title, content, blogPostId, userId }) => {
 
   if (userIdFromBlogPost.dataValues.userId !== userId) return false;
 
-  await blogPostModel.update(
-    { title, content },
-    { where: { id: blogPostId } },
-  );
+  await blogPostModel.update({ title, content }, { where: { id: blogPostId } });
   const updatedValues = await findBlogPostAndCategoryById(blogPostId);
   return updatedValues;
 };
@@ -99,4 +97,5 @@ module.exports = {
   search,
   createBlogPost,
   update,
-  destroy };
+  destroy,
+};

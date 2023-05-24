@@ -1,70 +1,92 @@
-const frisby = require('frisby');
-const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
-const { user } = require('../../helpers/mockUser');
+const request = require('supertest');
 const shell = require('shelljs');
+const api = require('../../../src/api');
+const faker = require('../../helpers/faker');
+const { sequelize: sequelizeCli } = require('../../helpers/constants');
 
-describe('POST Rota: user/ - Cadastrar usuário', () => {
-    beforeAll(() => {
-        shell.exec([
-          sequelizeCli.drop,
-          sequelizeCli.create,
-          sequelizeCli.migrate,
-          sequelizeCli.seed
-        ].join(' && '),
-          { silent: process.env.DEBUG === "false" });
+describe('POST Route: user/ - Register user', () => {
+  beforeAll(() => {
+    shell.exec(sequelizeCli.beforetest, {
+      silent: process.env.DEBUG === 'false',
     });
-    it('É possível criar um usuário', async () => {
-        const { displayName, email, password, image } = user;
-        const { json } = await frisby.post(`${apiURL}/user/`, {
-            displayName,
-            email: email("teste@teste.com"),
-            password,
-            image
-        }).expect('status', 201);
+  });
 
-        expect(json).toHaveProperty('token');
-        expect(typeof json.token).toBe('string');
-    });  
-    it('Usuário ja existe, retorna mensagem correta', async () => {
-        const { displayName, email, password, image } = user;
-        const { json } = await frisby.post(`${apiURL}/user/`, {
-            displayName,
-            email: email("lewishamilton@gmail.com"),
-            password,
-            image
-        }).expect('status', 409);
+  afterAll(() => {
+    shell.exec(sequelizeCli.posttest, {
+      silent: false,
+    });
+  });
 
-        expect(json.message).toBe('User already registered');
+  it('Is possible to create a user', async () => {
+    const response = await request(api).post('/user').send({
+      displayName: faker.displayName,
+      email: faker.email,
+      password: faker.password,
+      image: faker.image,
+    });
 
-    });  
-    it('O nome não for informado, retorna a mensagem correta', async () => {
-        const { email, password, image } = user;
-        const { json } = await frisby.post(`${apiURL}/user/`, {
-            email: email("teste@teste.com"),
-            password,
-            image
-        }).expect('status', 400);
+    expect(response.body).toHaveProperty('token');
+    expect(typeof response.body.token).toBe('string');
+  });
 
-        expect(json.message).toBe('"displayName" length must be at least 8 characters long');
-    });  
-    it('O email não for informado, retorna a mensagem correta', async () => {
-        const {displayName, password, image } = user;
-        const { json } = await frisby.post(`${apiURL}/user/`, {
-            displayName,
-            password,
-            image
-        }).expect('status', 400);
+  it('Is not possible to create a user that already exist', async () => {
+    const { displayName, email, password, image } = faker;
 
-        expect(json.message).toBe('"email" must be a valid email');
-    });  
-    it('A senha não for informada, retorna a mensagem correta', async () => {
-        const { displayName, email, image } = user;
-        const { json } = await frisby.post(`${apiURL}/user/`, {
-            displayName,
-            email: email("teste@teste.com"),
-            image
-        }).expect('status', 400);
+    await request(api).post('/user').send({
+      displayName,
+      email,
+      password,
+      image,
+    });
 
-        expect(json.message).toBe('"password" length must be at least 6 characters long');
-    });  
+    const response = await request(api).post('/user').send({
+      displayName,
+      email,
+      password,
+      image,
+    });
+
+    expect(response.status).toBe(409);
+    expect(response.body.message).toBe('User already registered');
+  });
+
+  it('Is not possible create a user without name', async () => {
+    const { email, password, image } = faker;
+    const response = await request(api).post('/user').send({
+      email,
+      password,
+      image,
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe(
+      '"displayName" length must be at least 8 characters long'
+    );
+  });
+
+  it('Is not possible create a user without email', async () => {
+    const { displayName, password, image } = faker;
+    const response = await request(api).post('/user').send({
+      displayName,
+      password,
+      image,
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe('"email" must be a valid email');
+  });
+
+  it('Is not possible create a user without password', async () => {
+    const { displayName, email, image } = faker;
+    const response = await request(api).post('/user').send({
+      displayName,
+      email,
+      image,
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe(
+      '"password" length must be at least 6 characters long'
+    );
+  });
 });

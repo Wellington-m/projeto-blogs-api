@@ -1,9 +1,6 @@
 module.exports = {
     sequelize: {
-      drop: "npx sequelize-cli db:drop",
-      create: "npx sequelize-cli db:create",
-      migrate: "npx sequelize-cli db:migrate",
-      seed: "npx sequelize-cli db:seed:all"
+      beforetest: "npm run pretest",
+      posttest: "npm run posttest",
     },
-    apiURL: "http://localhost:3030"
   }

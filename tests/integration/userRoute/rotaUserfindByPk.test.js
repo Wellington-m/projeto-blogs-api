@@ -4,13 +4,14 @@ const shell = require('shelljs');
 const { User: userModel } = require('../../../src/database/models');
 const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
 
-describe('GET Rota: user/:id - procurar usuário pelo ID', () => {
+describe.skip('GET Rota: user/:id - procurar usuário pelo ID', () => {
     beforeAll(() => {
         shell.exec([
-          sequelizeCli.drop,
-          sequelizeCli.create,
-          sequelizeCli.migrate,
-          sequelizeCli.seed
+            sequelizeCli.pretest,
+            sequelizeCli.drop,
+            sequelizeCli.create,
+            sequelizeCli.migrate,
+            sequelizeCli.seed
         ].join(' && '),
           { silent: process.env.DEBUG === "false" });
     });

@@ -1,54 +1,61 @@
-const frisby = require('frisby');
-const { sequelize: sequelizeCli, apiURL } = require('../../helpers/constants');
+const request = require('supertest');
+const api = require('../../../src/api');
+const { User } = require('../../../src/database/models');
+const { sequelize: sequelizeCli } = require('../../helpers/constants');
 const shell = require('shelljs');
 
 describe('POST Rota: categories/ - Cadastrar uma categoria', () => {
-    beforeAll(() => {
-        shell.exec([
-            sequelizeCli.drop,
-            sequelizeCli.create,
-            sequelizeCli.migrate,
-            sequelizeCli.seed
-        ].join('&&'), {
-            silent: 'false',
-        })
+  beforeAll(async () => {
+    shell.exec(sequelizeCli.beforetest, {
+      silent: false,
     });
 
-    it('Não é possível cadastrar uma categoria sem nome', async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-            email: "lewishamilton@gmail.com",
-            password: "123456",
-        }).expect('status', 200);
-        
-        const { body } = await frisby.setup({
-            request: {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        }).post(`${apiURL}/categories`).expect('status', 400);
-
-        const result = JSON.parse(body);
-        expect(result.message).toBe('"name" is required');
+    await User.create({
+      displayName: 'ola',
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+      image: 'teste',
     });
-    it('É possível cadastrar uma categoria com sucesso', async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-            email: "lewishamilton@gmail.com",
-            password: "123456",
-        }).expect('status', 200);
+  });
 
-        const { body } = await frisby.setup({
-            request: {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        }).post(`${apiURL}/categories`, {
-            name: 'Teste'
-        }).expect('status', 201);
-
-        const result = JSON.parse(body);
-        expect(result).toHaveProperty('id');
-        expect(result).toHaveProperty('name');
+  afterAll(() => {
+    shell.exec(sequelizeCli.posttest, {
+      silent: false,
     });
+  });
+
+  it('Não é possível cadastrar uma categoria sem nome', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+    });
+
+    const response = await request(api)
+      .post('/categories')
+      .set('Authorization', token)
+      .send({});
+
+    expect(response.status).toBe(400);
+  });
+  it('É possível cadastrar uma categoria com sucesso', async () => {
+    const {
+      body: { token },
+    } = await request(api).post('/login').send({
+      email: 'lewishamilton@gmail.com',
+      password: '123456',
+    });
+
+    const response = await request(api)
+      .post('/categories')
+      .set('Authorization', token)
+      .send({
+        name: 'Teste',
+      });
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty(['id']);
+    expect(response.body).toHaveProperty('name');
+  });
 });

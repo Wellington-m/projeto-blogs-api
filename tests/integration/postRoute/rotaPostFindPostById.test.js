@@ -1,60 +1,49 @@
-const frisby = require('frisby');
+const request = require('supertest');
 const shell = require('shelljs');
-const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
+const api = require('../../../src/api');
+const { registerUser, registerBlogPost, registerCategory, registerPostCategory } = require('../../helpers/registerData');
+const {sequelize: sequelizeCli} = require('../../helpers/constants');
 
 describe('GET Rota: /post/:id - Procurar um post pelo id', () => {
-    beforeAll(() => {
-        shell.exec([
-            sequelizeCli.drop,
-            sequelizeCli.create,
-            sequelizeCli.migrate,
-            sequelizeCli.seed,
-        ].join('&&'), {
-            silent: 'false',
-        })
+    beforeAll(async () => {
+        shell.exec(sequelizeCli.beforetest, {
+            silent: false,
+        });
+
+        await registerUser();
+        await registerBlogPost();
+        await registerCategory();
+        await registerPostCategory();
     });
 
-    it('Post não existe', async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-            email: 'lewishamilton@gmail.com',
-            password: '123456',
-        }).expect('status', 200);
-
-        const { body } = await frisby.setup({
-            request: {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        })
-        .get(`${apiURL}/post/5`)
-        .expect('status', 404);
-
-        const result = JSON.parse(body);
-
-        expect(result.message).toBe('Post does not exist');
+    afterAll(() => {
+      shell.exec(sequelizeCli.posttest, {
+        silent: false})
     });
-    it('Post existe e retorna as informações corretas', async () => {
-        const { json: { token } } = await frisby.post(`${apiURL}/login`, {
-            email: 'lewishamilton@gmail.com',
-            password: '123456',
-        }).expect('status', 200);
 
-        const { body } = await frisby.setup({
-            request: {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        })
-        .get(`${apiURL}/post/1`)
-        .expect('status', 200);
+    it('post does not exist', async () => {
+        const { body: { token } } = await request(api).post('/login').send({
+          email: 'brett@email.com',
+          password: '123456',
+        });
 
-        const result = JSON.parse(body);
+        const response = await request(api).get('/post/5').set('Authorization', token);
 
-        expect(result).toHaveProperty('id', 'title', 'content', 'userId', 'published', 'updated');
-        expect(result.user).toHaveProperty('id', 'displayName', 'email', 'image');
-        expect(result.categories[0]).toHaveProperty('id');
-        expect(result.categories[0]).toHaveProperty('name');
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe('Post does not exist');
+    });
+    it('Post exists and returns the correct information', async () => {
+        const { body: { token } } = await request(api).post('/login').send({
+          email: 'brett@email.com',
+          password: '123456',
+        });
+
+        const response = await request(api).get('/post/1').set('Authorization', token);
+        
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('id', 'title', 'content', 'userId', 'published', 'updated');
+        expect(response.body.user).toHaveProperty('id', 'displayName', 'email', 'image');
+        expect(response.body.categories[0]).toHaveProperty('id');
+        expect(response.body.categories[0]).toHaveProperty('name');
     });
 });

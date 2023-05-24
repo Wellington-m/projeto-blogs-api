@@ -5,28 +5,26 @@ const { Category: categoryModel } = require('../../../src/database/models');
 const { findAllResult, createResult } = require('../../helpers/mockCategory');
 
 describe('Category Service test', () => {
-    
-    beforeAll(() => {
-        categoryModel.findAll.mockImplementation(() => {
-            return Promise.resolve(findAllResult);
-        });
-        
-        categoryModel.create.mockImplementation(() => {
-            return Promise.resolve(createResult);
-        });
-    });
-    
-    afterAll(() => {
-        jest.resetAllMocks();
+  beforeAll(() => {
+    categoryModel.findAll.mockImplementation(() => {
+      return Promise.resolve(findAllResult);
     });
 
-    it('is possible list all categories', async () => {
-        const result = await findAll();
-        expect(result).toEqual(findAllResult);
+    categoryModel.create.mockImplementation(() => {
+      return Promise.resolve(createResult);
+    });
+  });
 
-    });
-    it('is possible create a categorie', async () => {
-        const result = await create();
-        expect(result).toEqual(createResult);
-    });
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+
+  it('is possible list all categories', async () => {
+    const result = await findAll();
+    expect(result).toEqual(findAllResult);
+  });
+  it('is possible create a categorie', async () => {
+    const result = await create('Teste');
+    expect(result).toEqual(createResult);
+  });
 });
