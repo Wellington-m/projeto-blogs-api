@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.27% </span>
+                <span class="strong">92.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>73/101</span>
+                <span class='fraction'>93/101</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.3% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/13</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.27% </span>
+                <span class="strong">92.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>73/101</span>
+                <span class='fraction'>93/101</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -199,26 +199,26 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -299,27 +299,27 @@ const findBlogPostAndCategoryById = async (id) =&gt; {
   return result;
 };
 &nbsp;
-const search = <span class="fstat-no" title="function not covered" >async (q) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const query = `%${q}%`;</span>
-<span class="cstat-no" title="statement not covered" >  const result = await blogPostModel.findAll({</span>
-<span class="cstat-no" title="statement not covered" >    where: {</span>
-<span class="cstat-no" title="statement not covered" >      [Op.or]: [</span>
-<span class="cstat-no" title="statement not covered" >        {</span>
-<span class="cstat-no" title="statement not covered" >          title: { [Op.like]: query },</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >        {</span>
-<span class="cstat-no" title="statement not covered" >          content: { [Op.like]: query },</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >      ],</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    include: [</span>
-<span class="cstat-no" title="statement not covered" >      { model: userModel, as: 'user', attributes: { exclude: ['password'] } },</span>
-<span class="cstat-no" title="statement not covered" >      { model: categoryModel, as: 'categories', through: { attributes: [] } },</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return result;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const search = async (q) =&gt; {
+  const query = `%${q}%`;
+  const result = await blogPostModel.findAll({
+    where: {
+      [Op.or]: [
+        {
+          title: { [Op.like]: query },
+        },
+        {
+          content: { [Op.like]: query },
+        },
+      ],
+    },
+    include: [
+      { model: userModel, as: 'user', attributes: { exclude: ['password'] } },
+      { model: categoryModel, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+&nbsp;
+  return result;
+};
 &nbsp;
 const createBlogPost = async ({ title, content, categoryIds, userId }) =&gt; {
   const categoryIdsPromises = categoryIds.map((id) =&gt;
@@ -373,7 +373,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-24T15:28:01.424Z
+                at 2023-05-24T15:46:26.001Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

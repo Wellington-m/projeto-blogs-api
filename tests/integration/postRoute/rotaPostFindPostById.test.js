@@ -2,7 +2,7 @@ const request = require('supertest');
 const shell = require('shelljs');
 const api = require('../../../src/api');
 const { registerUser, registerBlogPost, registerCategory, registerPostCategory } = require('../../helpers/registerData');
-const {sequelize: sequelizeCli, apiURL} = require('../../helpers/constants');
+const {sequelize: sequelizeCli} = require('../../helpers/constants');
 
 describe('GET Rota: /post/:id - Procurar um post pelo id', () => {
     beforeAll(async () => {
