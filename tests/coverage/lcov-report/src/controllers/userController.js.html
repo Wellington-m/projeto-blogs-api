@@ -131,17 +131,17 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">23x</span>
-<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -165,17 +165,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -192,18 +192,18 @@
 const ERROR_MESSAGE = 'Server error';
 const USER_NOT_FOUND_ERROR = 'No user was found!';
 &nbsp;
-const login = async (req, res) =&gt; {
-  try {
-    const { email, password } = req.body;
-    const result = await userService.findByEmail({ email, password });
-  
-    if (!result) return res.status(400).json({ message: 'Invalid fields' });
-  
-    return res.status(200).json({ token: result });
-  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+const login = <span class="fstat-no" title="function not covered" >async (req, res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  try {</span>
+<span class="cstat-no" title="statement not covered" >    const { email, password } = req.body;</span>
+<span class="cstat-no" title="statement not covered" >    const result = await userService.findByEmail({ email, password });</span>
+<span class="cstat-no" title="statement not covered" >  </span>
+<span class="cstat-no" title="statement not covered" >    if (!result) return res.status(400).json({ message: 'Invalid fields' });</span>
+<span class="cstat-no" title="statement not covered" >  </span>
+<span class="cstat-no" title="statement not covered" >    return res.status(200).json({ token: result });</span>
+<span class="cstat-no" title="statement not covered" >  } catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >    return res.status(500).json({ message: ERROR_MESSAGE });</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-};
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 const findByPk = <span class="fstat-no" title="function not covered" >async (req, res) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
@@ -226,18 +226,18 @@ const findAll = <span class="fstat-no" title="function not covered" >async (_req
 <span class="cstat-no" title="statement not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-const create = <span class="fstat-no" title="function not covered" >async (req, res) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >    const { displayName, email, password, image } = req.body;</span>
-<span class="cstat-no" title="statement not covered" >    const result = await userService.create({ displayName, email, password, image });</span>
-<span class="cstat-no" title="statement not covered" >  </span>
-<span class="cstat-no" title="statement not covered" >    if (!result) return res.status(409).json({ message: 'User already registered' });</span>
-<span class="cstat-no" title="statement not covered" >  </span>
-<span class="cstat-no" title="statement not covered" >    return res.status(201).json({ token: result });</span>
-<span class="cstat-no" title="statement not covered" >  } catch (error) {</span>
+const create = async (req, res) =&gt; {
+  try {
+    const { displayName, email, password, image } = req.body;
+    const result = await userService.create({ displayName, email, password, image });
+  
+    if (!result) return res.status(409).json({ message: 'User already registered' });
+  
+    return res.status(201).json({ token: result });
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >    return res.status(500).json({ message: ERROR_MESSAGE });</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+};
 &nbsp;
 const destroy = <span class="fstat-no" title="function not covered" >async (req, res) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -256,7 +256,7 @@ module.exports = { login, create, findAll, findByPk, destroy };</pre></td></tr><
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-24T16:19:32.854Z
+                at 2023-05-24T19:01:51.694Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

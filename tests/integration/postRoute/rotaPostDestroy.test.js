@@ -39,6 +39,12 @@ describe('DELETE Route: /post/:id - Delete a post', () => {
     ]);
   });
 
+  afterAll(() => {
+    shell.exec(sequelizeCli.posttest, {
+      silent: false,
+    });
+  });
+
   it('isnt possible delete another users post', async () => {
     const { body: { token } } = await request(api).post('/login').send({
       email: 'lewishamilton@gmail.com',
