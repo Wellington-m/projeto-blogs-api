@@ -4,7 +4,7 @@ const { registerUser } = require('../../helpers/registerData');
 const { sequelize: sequelizeCli } = require('../../helpers/constants');
 const shell = require('shelljs');
 
-describe('DELETE Rota: user/me - Deletar usuário logado', () => {
+describe('DELETE Route: user/me - delete logged in user', () => {
   beforeAll(async () => {
     shell.exec(sequelizeCli.beforetest, { silent: 'false' });
     await registerUser();
