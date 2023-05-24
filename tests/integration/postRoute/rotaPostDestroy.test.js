@@ -25,11 +25,18 @@ describe('DELETE Route: /post/:id - Delete a post', () => {
       }
     ]);
 
-    await BlogPost.create({
-      title: 'teste',
-      content: 'teste delete post',
-      userId: 2,
-    });
+    await BlogPost.bulkCreate([
+      {
+        title: 'teste',
+        content: 'teste delete post',
+        userId: 2,
+      },
+      {
+        title: 'teste2',
+        content: 'teste delete post2',
+        userId: 1,
+      },
+    ]);
   });
 
   it('isnt possible delete another users post', async () => {
@@ -41,46 +48,29 @@ describe('DELETE Route: /post/:id - Delete a post', () => {
     const response = await request(api).del('/post/1').set('Authorization', token);
     
     expect(response.status).toBe(401);
-
-    //expect(result.message).toBe('Unauthorized user');
-
+    expect(response.body.message).toBe('Unauthorized user');
   });
+
   it('isnt possible delete a post that does not exist', async () => {
-    const { json: { token } } = await frisby.post(`${apiURL}/login`, {
+    const { body: { token } } = await request(api).post('/login').send({
       email: 'lewishamilton@gmail.com',
       password: '123456',
-    })
-    .expect('status', 200);
+    });
 
-    const { body } = await frisby.setup({
-      request: {
-          headers: {
-              'Authorization': token,
-          }
-      }
-    })
-    .del(`${apiURL}/post/10`)
-    .expect('status', 404);
-
-    const result = JSON.parse(body);
-    expect(result.message).toBe('Post does not exist');
+    const response = await request(api).del('/post/10').set('Authorization', token);
+    
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Post does not exist');
   });
+
   it('is possible delete a post', async () => {
-    const { json: { token } } = await frisby.post(`${apiURL}/login`, {
+    const { body: { token } } = await request(api).post('/login').send({
       email: 'lewishamilton@gmail.com',
       password: '123456',
-    })
-    .expect('status', 200);
+    });
 
-    const { body } = await frisby.setup({
-      request: {
-          headers: {
-              'Authorization': token,
-          }
-      }
-    })
-    .del(`${apiURL}/post/1`)
-    .expect('status', 204);
-
+    const response = await request(api).del('/post/2').set('Authorization', token);
+    
+    expect(response.status).toBe(204);
   });
 });

@@ -109,7 +109,7 @@ describe('POST Route: /post - Create a post', () => {
     expect(response.body.message).toBe('"categoryIds" not found');
   });
 
-  fit('is possible create a post', async () => {
+  it('is possible create a post', async () => {
     const {
       body: { token },
     } = await request(api).post('/login').send({
