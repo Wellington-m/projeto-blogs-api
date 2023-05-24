@@ -8,7 +8,6 @@ const {
 
 const findByPk = async (id) => {
   const result = await blogPostModel.findByPk(id);
-  console.log('OLAAAAAAAAAAAAAAAA', result);
   if (!result) return false;
   return result;
 };

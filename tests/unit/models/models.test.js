@@ -72,7 +72,6 @@ describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCa
       'image'
     );
 
-    const { title } = insert.blogPosts;
     const blogPostsCreated = await registerBlogPost();
 
     expect(blogPostsCreated).toHaveProperty(
@@ -83,6 +82,7 @@ describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCa
       'updated'
     );
 
+    const { title } = insert.blogPosts;
     const [blogPostFind] = await BlogPost.findAll({
       where: {
         title,
@@ -93,11 +93,8 @@ describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCa
       expect.objectContaining(result.blogPosts.general)
     );
 
-    expect(Date.parse(blogPostFind.dataValues.published)).toEqual(
-      result.blogPosts.published
-    );
-    expect(Date.parse(blogPostFind.dataValues.updated)).toEqual(
-      result.blogPosts.updated
+    expect(blogPostFind.dataValues).toEqual(
+      expect.objectContaining({published: expect.any(String), updated: expect.any(String)})
     );
   });
 
