@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.66% </span>
+                <span class="strong">75.55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/45</span>
+                <span class='fraction'>34/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">46.66% </span>
+                <span class="strong">75.55% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/45</span>
+                <span class='fraction'>34/45</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -111,14 +111,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -145,24 +145,24 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const { User: userModel } = require('../database/models');
 const tokenHelper = require('../helpers/token');
 &nbsp;
-const findByEmail = <span class="fstat-no" title="function not covered" >async ({ email, password }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [result] = await userModel.findAll({ where: { email } });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  if (!result || result.dataValues.password !== password) return null;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const token = tokenHelper.createToken({ id: result.dataValues.id });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return token;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const findByEmail = async ({ email, password }) =&gt; {
+  const [result] = await userModel.findAll({ where: { email } });
+&nbsp;
+  if (!result || result.dataValues.password !== password) return null;
+&nbsp;
+  const token = tokenHelper.createToken({ id: result.dataValues.id });
+&nbsp;
+  return token;
+};
 &nbsp;
 const findByPk = <span class="fstat-no" title="function not covered" >async (receiveId) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const rows = await userModel.findByPk(receiveId);</span>
@@ -188,12 +188,12 @@ const create = async ({ displayName, email, password, image }) =&gt; {
   return token;
 };
 &nbsp;
-const destroy = <span class="fstat-no" title="function not covered" >async (id) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  await userModel.destroy({</span>
-<span class="cstat-no" title="statement not covered" >    where: { id },</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >  return true;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const destroy = async (id) =&gt; {
+  await userModel.destroy({
+    where: { id },
+  });
+  return true;
+};
 &nbsp;
 module.exports = { findByEmail, create, findAll, findByPk, destroy };</pre></td></tr></table></pre>
 
@@ -202,7 +202,7 @@ module.exports = { findByEmail, create, findAll, findByPk, destroy };</pre></td>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-05-24T19:01:51.694Z
+                at 2023-05-24T19:53:22.293Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
