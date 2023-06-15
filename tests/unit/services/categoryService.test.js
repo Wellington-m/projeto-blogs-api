@@ -2,7 +2,7 @@ jest.mock('../../../src/database/models');
 
 const { findAll, create } = require('../../../src/services/categoryService');
 const { Category: categoryModel } = require('../../../src/database/models');
-const { findAllResult, createResult } = require('../../helpers/mockCategory');
+const { findAllResult, createResult } = require('../../helpers/mockData');
 
 describe('Category Service test', () => {
   beforeAll(() => {

@@ -17,6 +17,8 @@ const {
   update,
 } = require('../../../src/services/postService');
 
+const { postResult } = require('../../helpers/mockData');
+
 describe('Post Service test', () => {
   beforeAll(() => {
     const categoryMap = {
@@ -38,17 +40,8 @@ describe('Post Service test', () => {
 
     PostCategoryModel.bulkCreate = jest.fn((postCategoryIds) => Promise.resolve());
 
-    blogPostModel.findByPk = jest.fn((id) => {
-      const post = {
-        id: 1,
-        title: 'Fórmula 1',
-        content: 'O campeão do ano!',
-        userId: 1,
-        published: '2023-06-15',
-        updated: '2023-06-15'
-      };
-      return Promise.resolve({ dataValues: post });
-    });
+    blogPostModel.findByPk = jest.fn((id) => Promise.resolve({ dataValues: postResult }));
+
   });
   afterAll(() => {
     jest.resetAllMocks();
@@ -67,10 +60,10 @@ describe('Post Service test', () => {
 
   it('Is possible to create a post', async () => {
     const dataMock = {
-      title: 'Fórmula 1',
-      content: 'O campeão do ano!',
+      title: postResult.title,
+      content: postResult.content,
       categoryIds: [1, 2],
-      userId: 1,
+      userId: postResult.userId,
     }
     const { dataValues } = await createBlogPost(dataMock);
     expect(dataValues).toHaveProperty('content', 'O campeão do ano!');
