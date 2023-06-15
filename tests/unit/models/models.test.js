@@ -15,7 +15,7 @@ const shell = require('shelljs');
 const { insert, result } = require('../../helpers/queries');
 
 describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCategories', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     shell.exec(sequelizeCli.beforetest, {
       silent: false,
     });
