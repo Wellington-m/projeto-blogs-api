@@ -6,6 +6,7 @@ module.exports = {
       postId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
           model: 'BlogPosts',
@@ -17,6 +18,7 @@ module.exports = {
       categoryId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        foreignKey: true,
         allowNull: false,
         references: {
           model: 'Categories',

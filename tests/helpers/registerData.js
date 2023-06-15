@@ -43,7 +43,7 @@ const registerPostCategory = async () => {
     categoryId,
     postId,
   });
-
+  console.log('AIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII', postCategoryCreated);
   return postCategoryCreated;
 };
 
