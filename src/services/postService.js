@@ -55,16 +55,25 @@ const search = async (q) => {
 };
 
 const createBlogPost = async ({ title, content, categoryIds, userId }) => {
+  // Obter as categorias com base nos seus IDs
   const categoryIdsPromises = categoryIds.map((id) =>
     categoryModel.findByPk(id));
   const categories = await Promise.all(categoryIdsPromises);
+
+  // Verificar se alguma categoria é nula
   if (categories.some((category) => category === null)) return false;
+
+  // Criar o objeto do post do blog
   const { dataValues } = await blogPostModel.create({ title, content, userId });
+
+  // Criar os registros de associação entre post e categoria
   const postCategoryIds = categoryIds.reduce((acc, curr, index) => {
     acc[index] = { postId: dataValues.id, categoryId: curr };
     return acc;
   }, []);
   await PostCategoryModel.bulkCreate(postCategoryIds);
+
+  // Obter o post recém-criado com todas as associações
   const result = await findByPk(dataValues.id);
   return result;
 };
