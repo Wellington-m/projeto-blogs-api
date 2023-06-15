@@ -21,7 +21,7 @@ describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCa
     });
   });
 
-  afterEach(() => {
+  afterAll(() => {
     shell.exec(sequelizeCli.posttest, {
       silent: false,
     });
@@ -101,9 +101,8 @@ describe('Cria migrations para as entidades User, Categories, BlogPosts e PostCa
     );
   });
 
-  it.skip('É possível fazer um INSERT e um SELECT na tabela PostCategories', async () => {
+  it('É possível fazer um INSERT e um SELECT na tabela PostCategories', async () => {
     const postCategoryCreated = await registerPostCategory();
-    console.log('OLAAAA', postCategoryCreated);
 
     expect(postCategoryCreated).toHaveProperty('postId');
     expect(postCategoryCreated).toHaveProperty('categoryId');
