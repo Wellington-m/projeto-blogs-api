@@ -46,6 +46,10 @@ describe('Post Service test', () => {
     .mockResolvedValueOnce({ dataValues: postResult })
     .mockResolvedValueOnce(null);
 
+    blogPostModel.findAll = jest
+    .fn()
+    .mockResolvedValue({ dataValues: allPosts });
+
   });
   afterAll(() => {
     jest.resetAllMocks();
@@ -64,6 +68,34 @@ describe('Post Service test', () => {
     }))
     expect(secondCall).toBe(false);
     expect(blogPostModel.findByPk).toHaveBeenCalledTimes(2);
+  });
+
+  it('findBlogPostsAndCategories return correct values', async () => {
+    const { dataValues: result} = await findBlogPostsAndCategories();
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          title: expect.any(String),
+          content: expect.any(String),
+          userId: expect.any(Number),
+          published: expect.any(String),
+          updated: expect.any(String),
+          user: expect.objectContaining({
+            id: expect.any(Number),
+            displayName: expect.any(String),
+            email: expect.any(String),
+            image: expect.any(String),
+          }),
+          categories: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(Number),
+              name: expect.any(String),
+            })
+          ]),
+        })
+      ])
+    );
   });
 
   it('createBlogPost return false with inválid category', async () => {
