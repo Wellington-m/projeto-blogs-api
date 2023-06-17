@@ -17,7 +17,7 @@ const {
   update,
 } = require('../../../src/services/postService');
 
-const { postResult } = require('../../helpers/mockData');
+const { postResult, allPosts } = require('../../helpers/mockData');
 
 describe('Post Service test', () => {
   beforeAll(() => {
@@ -40,14 +40,33 @@ describe('Post Service test', () => {
 
     PostCategoryModel.bulkCreate = jest.fn((postCategoryIds) => Promise.resolve());
 
-    blogPostModel.findByPk = jest.fn((id) => Promise.resolve({ dataValues: postResult }));
+    blogPostModel.findByPk = jest
+    .fn()
+    .mockResolvedValue({ dataValues: postResult })
+    .mockResolvedValueOnce({ dataValues: postResult })
+    .mockResolvedValueOnce(null);
 
   });
   afterAll(() => {
     jest.resetAllMocks();
   });
 
-  it('Is not possible to create a post with inválid category', async () => {
+  it('findByPk return correct values', async () => {
+    const { dataValues: firstCall} = await findByPk(1);
+    const secondCall = await findByPk(2);
+    expect(firstCall).toEqual(expect.objectContaining({
+      id: expect.any(Number),
+      title: expect.any(String),
+      content: expect.any(String),
+      userId: expect.any(Number),
+      published: expect.any(String),
+      updated: expect.any(String),
+    }))
+    expect(secondCall).toBe(false);
+    expect(blogPostModel.findByPk).toHaveBeenCalledTimes(2);
+  });
+
+  it('createBlogPost return false with inválid category', async () => {
     const dataMock = {
       title: 'Teste',
       content: 'Test',
@@ -58,7 +77,7 @@ describe('Post Service test', () => {
     expect(result).toBe(false);
   });
 
-  it('Is possible to create a post', async () => {
+  it('createBlogPost return correct values', async () => {
     const dataMock = {
       title: postResult.title,
       content: postResult.content,
@@ -72,5 +91,6 @@ describe('Post Service test', () => {
     expect(dataValues).toHaveProperty('title', 'Fórmula 1');
     expect(dataValues).toHaveProperty('updated', '2023-06-15');
     expect(dataValues).toHaveProperty('userId', 1);
+    expect(blogPostModel.findByPk).toHaveBeenCalledTimes(1);
   });
 });
