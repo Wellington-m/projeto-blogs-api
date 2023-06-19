@@ -28,6 +28,8 @@ describe('Post Service test', () => {
 
     categoryModel.findByPk = jest.fn((id) => Promise.resolve(categoryMap[id] || null));
 
+    PostCategoryModel.bulkCreate = jest.fn((postCategoryIds) => Promise.resolve());
+
     blogPostModel.create = jest.fn(({ title, content, userId }) => {
       const createdPost = {
         id: 1,
@@ -37,8 +39,6 @@ describe('Post Service test', () => {
       };
       return Promise.resolve({ dataValues: createdPost });
     });
-
-    PostCategoryModel.bulkCreate = jest.fn((postCategoryIds) => Promise.resolve());
 
     blogPostModel.findByPk = jest
     .fn()
@@ -73,46 +73,17 @@ describe('Post Service test', () => {
 
   it('findBlogPostsAndCategories return correct values', async () => {
     const { dataValues: result} = await findBlogPostsAndCategories();
-    expect(result).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          id: expect.any(Number),
-          title: expect.any(String),
-          content: expect.any(String),
-          userId: expect.any(Number),
-          published: expect.any(String),
-          updated: expect.any(String),
-          user: expect.objectContaining({
-            id: expect.any(Number),
-            displayName: expect.any(String),
-            email: expect.any(String),
-            image: expect.any(String),
-          }),
-          categories: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(Number),
-              name: expect.any(String),
-            })
-          ]),
-        })
-      ])
-    );
+    expect(result).toEqual(allPosts);
   });
 
   it('findBlogPostAndCategoryById return correct values', async () => {
     const { dataValues } = await findBlogPostAndCategoryById(1);
-    expect(dataValues).toHaveProperty("id", 1);
-    expect(dataValues).toHaveProperty("title", "Post do Ano");
-    expect(dataValues).toHaveProperty("content", "Melhor post do ano");
-    expect(dataValues).toHaveProperty("userId", 1);
-    expect(dataValues).toHaveProperty("published", "2011-08-01");
-    expect(dataValues).toHaveProperty("updated", "2011-08-01");
-    expect(dataValues.user).toHaveProperty("id", 1);
-    expect(dataValues.user).toHaveProperty("displayName", "Lewis Hamilton");
-    expect(dataValues.user).toHaveProperty("email", "lewishamilton@gmail.com");
-    expect(dataValues.user).toHaveProperty("image", "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg");
-    expect(dataValues.categories[0]).toHaveProperty("id", 1);
-    expect(dataValues.categories[0]).toHaveProperty("name", "Inovação");
+    expect(dataValues).toEqual(postResultById);
+  });
+
+  it('search returns the correct values', async () => {
+    const { dataValues } = await search('ano');
+    expect(dataValues[0]).toEqual(allPosts[0]);
   });
 
   it('createBlogPost return false with inválid category', async () => {
