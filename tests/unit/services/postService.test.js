@@ -17,7 +17,7 @@ const {
   update,
 } = require('../../../src/services/postService');
 
-const { postResult, allPosts } = require('../../helpers/mockData');
+const { postResult, allPosts, postResultById } = require('../../helpers/mockData');
 
 describe('Post Service test', () => {
   beforeAll(() => {
@@ -44,7 +44,8 @@ describe('Post Service test', () => {
     .fn()
     .mockResolvedValue({ dataValues: postResult })
     .mockResolvedValueOnce({ dataValues: postResult })
-    .mockResolvedValueOnce(null);
+    .mockResolvedValueOnce(null)
+    .mockResolvedValueOnce({ dataValues: postResultById });
 
     blogPostModel.findAll = jest
     .fn()
@@ -96,6 +97,22 @@ describe('Post Service test', () => {
         })
       ])
     );
+  });
+
+  it('findBlogPostAndCategoryById return correct values', async () => {
+    const { dataValues } = await findBlogPostAndCategoryById(1);
+    expect(dataValues).toHaveProperty("id", 1);
+    expect(dataValues).toHaveProperty("title", "Post do Ano");
+    expect(dataValues).toHaveProperty("content", "Melhor post do ano");
+    expect(dataValues).toHaveProperty("userId", 1);
+    expect(dataValues).toHaveProperty("published", "2011-08-01");
+    expect(dataValues).toHaveProperty("updated", "2011-08-01");
+    expect(dataValues.user).toHaveProperty("id", 1);
+    expect(dataValues.user).toHaveProperty("displayName", "Lewis Hamilton");
+    expect(dataValues.user).toHaveProperty("email", "lewishamilton@gmail.com");
+    expect(dataValues.user).toHaveProperty("image", "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg");
+    expect(dataValues.categories[0]).toHaveProperty("id", 1);
+    expect(dataValues.categories[0]).toHaveProperty("name", "Inovação");
   });
 
   it('createBlogPost return false with inválid category', async () => {
