@@ -17,7 +17,7 @@ const {
   update,
 } = require('../../../src/services/postService');
 
-const { postResult, allPosts, postResultById } = require('../../helpers/mockData');
+const { postResult, allPosts, postResultById, postUpdated } = require('../../helpers/mockData');
 
 describe('Post Service test', () => {
   beforeAll(() => {
@@ -52,6 +52,7 @@ describe('Post Service test', () => {
     .mockResolvedValue({ dataValues: allPosts });
 
   });
+
   afterAll(() => {
     jest.resetAllMocks();
   });
@@ -113,4 +114,5 @@ describe('Post Service test', () => {
     expect(dataValues).toHaveProperty('userId', 1);
     expect(blogPostModel.findByPk).toHaveBeenCalledTimes(1);
   });
+
 });
