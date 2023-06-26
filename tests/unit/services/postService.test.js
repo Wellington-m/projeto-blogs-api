@@ -9,7 +9,6 @@ const {
 
 const {
   createBlogPost,
-  destroy,
   findBlogPostAndCategoryById,
   findBlogPostsAndCategories,
   findByPk,
@@ -27,7 +26,7 @@ describe('Post Service test', () => {
 
     categoryModel.findByPk = jest.fn((id) => Promise.resolve(categoryMap[id] || null));
 
-    PostCategoryModel.bulkCreate = jest.fn((postCategoryIds) => Promise.resolve());
+    PostCategoryModel.bulkCreate = jest.fn(() => Promise.resolve());
 
     blogPostModel.create = jest.fn(({ title, content, userId }) => {
       const createdPost = {
