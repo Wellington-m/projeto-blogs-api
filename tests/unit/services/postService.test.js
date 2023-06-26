@@ -3,8 +3,7 @@ jest.mock('../../../src/database/models');
 const {
   BlogPost: blogPostModel,
   PostCategory: PostCategoryModel,
-  Category: categoryModel,
-  User: userModel,
+  Category: categoryModel
 } = require('../../../src/database/models');
 
 const {
