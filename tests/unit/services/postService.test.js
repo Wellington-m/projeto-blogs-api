@@ -14,7 +14,6 @@ const {
   findBlogPostsAndCategories,
   findByPk,
   search,
-  update,
 } = require('../../../src/services/postService');
 
 const { postResult, allPosts, postResultById, postUpdated } = require('../../helpers/mockData');
