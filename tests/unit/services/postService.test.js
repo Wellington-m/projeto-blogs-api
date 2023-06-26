@@ -14,7 +14,7 @@ const {
   search,
 } = require('../../../src/services/postService');
 
-const { postResult, allPosts, postResultById, postUpdated } = require('../../helpers/mockData');
+const { postResult, allPosts, postResultById } = require('../../helpers/mockData');
 
 describe('Post Service test', () => {
   beforeAll(() => {
