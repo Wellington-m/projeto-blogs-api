@@ -8,8 +8,12 @@ describe('Post Service User', () => {
   beforeAll(() => {
     const mockFindAll = jest
       .fn()
-      .mockResolvedValue([{ dataValues: userResult }])
-      .mockResolvedValueOnce([]);
+      .mockResolvedValue([{ dataValues: allUsers }])
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([{ dataValues: userResult }])
+      .mockResolvedValueOnce([{ dataValues: userResult }])
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([{ dataValues: allUsers }]);
 
     const mockFindByPk = jest
       .fn()
@@ -53,5 +57,16 @@ describe('Post Service User', () => {
     expect(result).toHaveProperty('displayName', "Lewis Hamilton");
     expect(result).toHaveProperty('email', "lewishamilton@gmail.com");
     expect(result).toHaveProperty('image', "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg");
+  });
+
+  it('findAll returns null if no users were found', async () => {
+    const result = await findAll();
+    expect(result).toBeNull();
+  });
+
+  it('findAll returns correct values', async () => {
+    const [result] = await findAll();
+    console.log('OLAAAAAAAAAAAA', result);
+    expect(result.dataValues).toEqual(allUsers);
   });
 });
