@@ -11,7 +11,13 @@ describe('Post Service User', () => {
       .mockResolvedValue([{ dataValues: userResult }])
       .mockResolvedValueOnce([]);
 
+    const mockFindByPk = jest
+      .fn()
+      .mockResolvedValue(userResult)
+      .mockResolvedValueOnce(null);
+
     userModel.findAll = mockFindAll;
+    userModel.findByPk = mockFindByPk;
   });
   afterAll(() => {
     jest.resetAllMocks();
@@ -34,5 +40,18 @@ describe('Post Service User', () => {
     const result = await findByEmail(data);
     expect(typeof result).toBe('string');
     expect(result).toHaveLength(137);
+  });
+
+  it('findByPk returns correct value if not find a user', async () => {
+    const result = await findByPk(5);
+    expect(result).toBeNull();
+  });
+
+  it('findByPk returns correct value', async () => {
+    const result = await findByPk(1);
+    expect(result).toHaveProperty('id', 1);
+    expect(result).toHaveProperty('displayName', "Lewis Hamilton");
+    expect(result).toHaveProperty('email', "lewishamilton@gmail.com");
+    expect(result).toHaveProperty('image', "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg");
   });
 });
