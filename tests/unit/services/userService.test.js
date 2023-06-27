@@ -13,15 +13,22 @@ describe('Post Service User', () => {
       .mockResolvedValueOnce([{ dataValues: userResult }])
       .mockResolvedValueOnce([{ dataValues: userResult }])
       .mockResolvedValueOnce([])
-      .mockResolvedValueOnce([{ dataValues: allUsers }]);
+      .mockResolvedValueOnce([{ dataValues: allUsers }])
+      .mockResolvedValueOnce([{ dataValues: allUsers[0] }])
+      .mockResolvedValueOnce([]);
 
     const mockFindByPk = jest
       .fn()
       .mockResolvedValue(userResult)
       .mockResolvedValueOnce(null);
+    
+    const mockCreate = jest
+      .fn()
+      .mockResolvedValue(userResult);
 
     userModel.findAll = mockFindAll;
     userModel.findByPk = mockFindByPk;
+    userModel.create = mockCreate;
   });
   afterAll(() => {
     jest.resetAllMocks();
@@ -59,7 +66,7 @@ describe('Post Service User', () => {
     expect(result).toHaveProperty('image', "https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg");
   });
 
-  it('findAll returns null if no users were found', async () => {
+  it('findAll returns null if no users was found', async () => {
     const result = await findAll();
     expect(result).toBeNull();
   });
@@ -67,5 +74,18 @@ describe('Post Service User', () => {
   it('findAll returns correct values', async () => {
     const [result] = await findAll();
     expect(result.dataValues).toEqual(allUsers);
+  });
+
+  it('create returns null if no user was found', async () => {
+    const { displayName, email, password, image } = allUsers[0];
+    const result = await create({ displayName, email, password, image });
+    expect(result).toBeNull();
+  });
+
+  it('create returns a valid token if create user', async () => {
+    const { displayName, email, password, image } = allUsers[0];
+    const result = await create({ displayName, email, password, image });
+    expect(typeof result).toBe('string');
+    expect(result).toHaveLength(137);
   });
 });

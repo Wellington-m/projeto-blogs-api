@@ -6,8 +6,8 @@
 .pnp.js
 
 # testing
-./tests/coverage
-./tests/database.sqlite
+/tests/coverage
+/tests/database.sqlite
 
 # production
 /build
