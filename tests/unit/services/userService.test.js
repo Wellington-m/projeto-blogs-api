@@ -66,7 +66,6 @@ describe('Post Service User', () => {
 
   it('findAll returns correct values', async () => {
     const [result] = await findAll();
-    console.log('OLAAAAAAAAAAAA', result);
     expect(result.dataValues).toEqual(allUsers);
   });
 });
