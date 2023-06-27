@@ -26,9 +26,12 @@ describe('Post Service User', () => {
       .fn()
       .mockResolvedValue(userResult);
 
+    const mockDestroy = jest.fn();
+
     userModel.findAll = mockFindAll;
     userModel.findByPk = mockFindByPk;
     userModel.create = mockCreate;
+    userModel.destroy = mockDestroy;
   });
   afterAll(() => {
     jest.resetAllMocks();
@@ -87,5 +90,10 @@ describe('Post Service User', () => {
     const result = await create({ displayName, email, password, image });
     expect(typeof result).toBe('string');
     expect(result).toHaveLength(137);
+  });
+
+  it('destroy returns true', async () => {
+    const result = await destroy(1);
+    expect(result).toBe(true);
   });
 });
