@@ -7,7 +7,7 @@
 
 # testing
 /tests/coverage
-/tests/database.sqlite
+tests/database.sqlite
 
 # production
 /build
