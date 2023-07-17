@@ -24,7 +24,10 @@ describe('Post Controller test', () => {
       categoryIds: 1,
     },
     id: 1,
-  }
+    params: {
+      id: 1,
+    },
+  };
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -44,5 +47,28 @@ describe('Post Controller test', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(201);
     expect(mockResponse.json).toHaveBeenCalledWith(postResult);
+  });
+
+  it('destroy return a 401 status and correct message', async () => {
+    postService.destroy = jest.fn().mockResolvedValue('Unauthorized user');
+    await destroy(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(401);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Unauthorized user' });
+  });
+
+  it('destroy return a 404 status and correct message', async () => {
+    postService.destroy = jest.fn().mockResolvedValue('Post does not exist');
+    await destroy(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(404);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Post does not exist' });
+  });
+
+  it('destroy return a 204 status', async () => {
+    postService.destroy = jest.fn().mockResolvedValue(true);
+    await destroy(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(204);
   });
 });
