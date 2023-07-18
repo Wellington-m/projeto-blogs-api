@@ -9,7 +9,7 @@ const {
 
 const postService = require('../../../src/services/postService');
 
-const { postResult } = require('../../helpers/mockData');
+const { postResult, postResultById } = require('../../helpers/mockData');
 
 describe('Post Controller test', () => {
   const mockResponse = {
@@ -70,5 +70,21 @@ describe('Post Controller test', () => {
     await destroy(mockRequest, mockResponse);
 
     expect(mockResponse.status).toHaveBeenCalledWith(204);
+  });
+
+  it('findBlogPostAndCategoryById return a status 404 and correct message', async () => {
+    postService.findBlogPostAndCategoryById = jest.fn().mockResolvedValue(null);
+    await findBlogPostAndCategoryById(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(404);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Post does not exist' });
+  });
+
+  it('findBlogPostAndCategoryById return a status 200 and correct result', async () => {
+    postService.findBlogPostAndCategoryById = jest.fn().mockResolvedValue(postResultById);
+    await findBlogPostAndCategoryById(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith(postResultById);
   });
 });
