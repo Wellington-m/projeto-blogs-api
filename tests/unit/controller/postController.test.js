@@ -87,4 +87,12 @@ describe('Post Controller test', () => {
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith(postResultById);
   });
+
+  it('findBlogPostsAndCategories', async () => {
+    postService.findBlogPostsAndCategories = jest.fn().mockResolvedValue('teste');
+    await findBlogPostsAndCategories(null, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith('teste');
+  });
 });
