@@ -104,4 +104,20 @@ describe('Post Controller test', () => {
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith(postResultById);
   });
+
+  it('update return a status 401 and a correct message', async () => {
+    postService.update = jest.fn().mockResolvedValue(false);
+    await update(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(401);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Unauthorized user' });
+  });
+  
+  it('update return a status 200 and the correct result', async () => {
+    postService.update = jest.fn().mockResolvedValue(postResultById);
+    await update(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith(postResultById);
+  });
 });
