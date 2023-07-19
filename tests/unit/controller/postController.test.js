@@ -27,6 +27,7 @@ describe('Post Controller test', () => {
     params: {
       id: 1,
     },
+    query: 'teste',
   };
 
   afterEach(() => {
@@ -94,5 +95,13 @@ describe('Post Controller test', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith('teste');
+  });
+
+  it('search return a status 200 and correct result', async () => {
+    postService.search = jest.fn().mockResolvedValue(postResultById);
+    await search(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith(postResultById);
   });
 });
