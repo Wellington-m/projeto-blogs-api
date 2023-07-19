@@ -49,4 +49,19 @@ describe('User Controller test', () => {
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error'});
   });
+
+  it('destroy return a 204 status code', async () => {
+    userService.destroy = jest.fn().mockResolvedValue(true);
+    await destroy(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(204);
+  });
+
+  it('destroy return a 500 status code and the correct message', async () => {
+    userService.destroy = jest.fn().mockRejectedValue(new Error('Server error'));
+    await destroy(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
+  });
 });
