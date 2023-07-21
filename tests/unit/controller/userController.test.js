@@ -7,7 +7,7 @@ const {
 } = require('../../../src/controllers/userController');
 
 const userService = require('../../../src/services/userService');
-const { allUsers } = require('../../helpers/mockUserData');
+const { allUsers, userResult } = require('../../helpers/mockUserData');
 
 describe('User Controller test', () => {
   const mockRequest = {
@@ -16,7 +16,8 @@ describe('User Controller test', () => {
       email: 'email@email.com',
       password: '123456',
       image: 'urlToImage',
-    }
+    },
+    params: 1
   };
   const mockResponse = {
     status: jest.fn().mockReturnThis(),
@@ -85,6 +86,30 @@ describe('User Controller test', () => {
   it('findAll return a 500 status code and the correct message', async () => {
     userService.findAll = jest.fn().mockRejectedValue(new Error('Server error'));
     await findAll(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
+  });
+
+  it('findByPk return a 404 status code and the correct message', async () => {
+    userService.findByPk = jest.fn().mockResolvedValue(null);
+    await findByPk(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(404);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'User does not exist' });
+  });
+
+  it('findByPk return a 200 status code and the correct result', async () => {
+    userService.findByPk = jest.fn().mockResolvedValue(userResult);
+    await findByPk(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith(userResult);
+  });
+
+  it('findByPk return a 500 status code and the correct message', async () => {
+    userService.findByPk = jest.fn().mockRejectedValue(new Error('Server error'));
+    await findByPk(mockRequest, mockResponse);
 
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
