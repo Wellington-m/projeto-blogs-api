@@ -7,6 +7,7 @@ const {
 } = require('../../../src/controllers/userController');
 
 const userService = require('../../../src/services/userService');
+const { allUsers } = require('../../helpers/mockUserData');
 
 describe('User Controller test', () => {
   const mockRequest = {
@@ -60,6 +61,30 @@ describe('User Controller test', () => {
   it('destroy return a 500 status code and the correct message', async () => {
     userService.destroy = jest.fn().mockRejectedValue(new Error('Server error'));
     await destroy(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
+  });
+
+  it('findAll return a 204 status code and the correct message', async () => {
+    userService.findAll = jest.fn().mockResolvedValue(null);
+    await findAll(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(204);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'No user was found!' });
+  });
+
+  it('findAll return a 200 status code and the correct result', async () => {
+    userService.findAll = jest.fn().mockResolvedValue(allUsers);
+    await findAll(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith(allUsers);
+  });
+
+  it('findAll return a 500 status code and the correct message', async () => {
+    userService.findAll = jest.fn().mockRejectedValue(new Error('Server error'));
+    await findAll(mockRequest, mockResponse);
 
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
