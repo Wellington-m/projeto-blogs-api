@@ -114,4 +114,28 @@ describe('User Controller test', () => {
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
   });
+
+  it('login return a 400 status code and the correct message', async () => {
+    userService.findByEmail = jest.fn().mockResolvedValue(null);
+    await login(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(400);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Invalid fields' });
+  });
+
+  it('login return a 200 status code and the correct result', async () => {
+    userService.findByEmail = jest.fn().mockResolvedValue('token');
+    await login(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(200);
+    expect(mockResponse.json).toHaveBeenCalledWith({ token: 'token' });
+  });
+
+  it('login return a 500 status code and the correct message', async () => {
+    userService.findByEmail = jest.fn().mockRejectedValue(new Error('Server error'));
+    await login(mockRequest, mockResponse);
+
+    expect(mockResponse.status).toHaveBeenCalledWith(500);
+    expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Server error' });
+  });
 });
